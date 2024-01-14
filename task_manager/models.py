@@ -62,7 +62,6 @@ class Task(models.Model):
     )
     assignees = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
         related_name="assigned_tasks"
     )
 

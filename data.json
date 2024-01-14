@@ -1,6 +1,27 @@
 [
   {
     "model": "task_manager.tasktype",
+    "pk": 1,
+    "fields": {
+      "name": "Development"
+    }
+  },
+  {
+    "model": "task_manager.tasktype",
+    "pk": 2,
+    "fields": {
+      "name": "Design"
+    }
+  },
+  {
+    "model": "task_manager.tasktype",
+    "pk": 3,
+    "fields": {
+      "name": "Testing"
+    }
+  },
+    {
+    "model": "task_manager.tasktype",
     "pk": 4,
     "fields": {
       "name": "Documentation"
@@ -11,6 +32,27 @@
     "pk": 5,
     "fields": {
       "name": "Meetings"
+    }
+  },
+  {
+    "model": "task_manager.position",
+    "pk": 1,
+    "fields": {
+      "name": "Developer"
+    }
+  },
+  {
+    "model": "task_manager.position",
+    "pk": 2,
+    "fields": {
+      "name": "Designer"
+    }
+  },
+  {
+    "model": "task_manager.position",
+    "pk": 3,
+    "fields": {
+      "name": "Tester"
     }
   },
   {
@@ -36,9 +78,43 @@
   },
   {
     "model": "task_manager.worker",
+    "pk": 1,
+    "fields": {
+      "password": "hashed_password123",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "john.doe",
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "john.doe@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-08-09T14:19:09Z",
+      "position": 1
+    }
+  },
+  {
+    "model": "task_manager.worker",
+    "pk": 2,
+    "fields": {
+      "password": "hashed_password321",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "jane.smith",
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "email": "jane.smith@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-08-09T14:19:09Z",
+      "position": 2
+    }
+  },
+  {
+    "model": "task_manager.worker",
     "pk": 3,
     "fields": {
-      "password": "ssword23165",
+      "password": "hashed_password124",
       "last_login": null,
       "is_superuser": false,
       "username": "susan.jones",
@@ -48,7 +124,6 @@
       "is_staff": false,
       "is_active": true,
       "date_joined": "2022-08-10T14:19:09Z",
-      "license_number": "SJ67890",
       "position": 3
     }
   },
@@ -56,7 +131,7 @@
     "model": "task_manager.worker",
     "pk": 4,
     "fields": {
-      "password": "password123",
+      "password": "hashed_password7427",
       "last_login": null,
       "is_superuser": false,
       "username": "michael.chang",
@@ -66,7 +141,6 @@
       "is_staff": false,
       "is_active": true,
       "date_joined": "2022-08-11T14:19:09Z",
-      "license_number": "MC09876",
       "position": 4
     }
   },
@@ -74,7 +148,7 @@
     "model": "task_manager.worker",
     "pk": 5,
     "fields": {
-      "password": "hashed_password321",
+      "password": "hashed_password",
       "last_login": null,
       "is_superuser": false,
       "username": "emily.wilson",
@@ -84,7 +158,6 @@
       "is_staff": false,
       "is_active": true,
       "date_joined": "2022-08-12T14:19:09Z",
-      "license_number": "EW45678",
       "position": 5
     }
   },
@@ -92,7 +165,7 @@
     "model": "task_manager.worker",
     "pk": 6,
     "fields": {
-      "password": "hashed_password123",
+      "password": "hashed_password111",
       "last_login": null,
       "is_superuser": false,
       "username": "alex.kim",
@@ -102,7 +175,6 @@
       "is_staff": false,
       "is_active": true,
       "date_joined": "2022-08-13T14:19:09Z",
-      "license_number": "AK12345",
       "position": 6
     }
   },
@@ -116,7 +188,7 @@
       "is_completed": false,
       "priority": "MEDIUM",
       "task_type": 4,
-      "assignees": [3, 4]
+      "assignees": [3, 4, 1]
     }
   },
   {
@@ -129,7 +201,46 @@
       "is_completed": false,
       "priority": "HIGH",
       "task_type": 5,
-      "assignees": [5, 6]
+      "assignees": [5, 6, 3]
+    }
+  },
+    {
+    "model": "task_manager.task",
+    "pk": 1,
+    "fields": {
+      "name": "Develop Feature X",
+      "description": "Implement and test Feature X",
+      "deadline": "2022-09-01",
+      "is_completed": false,
+      "priority": "HIGH",
+      "task_type": 1,
+      "assignees": [1, 2, 4]
+    }
+  },
+  {
+    "model": "task_manager.task",
+    "pk": 2,
+    "fields": {
+      "name": "Design UI",
+      "description": "Create user interface mockups",
+      "deadline": "2022-09-05",
+      "is_completed": false,
+      "priority": "MEDIUM",
+      "task_type": 2,
+      "assignees": [1, 5]
+    }
+  },
+  {
+    "model": "task_manager.task",
+    "pk": 3,
+    "fields": {
+      "name": "Write Test Cases",
+      "description": "Create test cases for the application",
+      "deadline": "2022-09-10",
+      "is_completed": false,
+      "priority": "LOW",
+      "task_type": 3,
+      "assignees": [2, 6]
     }
   },
   {
