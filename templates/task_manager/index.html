@@ -31,7 +31,7 @@
             <div class="col-md-4 position-relative">
               <div class="p-3 text-center">
                 <h1 class="text-gradient text-primary"><span id="state2" countTo="{{ uncompleted_tasks }}">0</span></h1>
-                <button class="mt-3 btn btn-danger">Uncompleted Tasks</button>
+                <a href="{% url "task_manager:task_list" %}" class="mt-3 btn btn-danger">Uncompleted Tasks</a>
                 <p class="text-sm font-weight-normal">click to more detail...</p>
               </div>
               <hr class="vertical dark">

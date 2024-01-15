@@ -19,7 +19,7 @@ def index(request: HttpRequest) -> HttpResponse:
         "positions": positions,
         "task_types": task_types,
     }
-    return render(request, "index.html", context)
+    return render(request, "task_manager/index.html", context)
 
 
 class WorkerListView(generic.ListView):
@@ -34,5 +34,6 @@ class WorkerListView(generic.ListView):
         return context
 
 
-
+class TaskListView(generic.ListView):
+    model = Task
 
