@@ -27,13 +27,25 @@ class WorkerListView(generic.ListView):
 
     def get_context_data(self, **kwargs) -> dict:
         context = super(WorkerListView, self).get_context_data(**kwargs)
-        username = self.request.GET.get("username", "")
-        context["search_form"] = WorkerSearchForm(
-            initial={"username": username}
-        )
+        # username = self.request.GET.get("username", "")
+        # context["search_form"] = WorkerSearchForm(
+        #     initial={"username": username}
+        # )
         return context
 
 
 class TaskListView(generic.ListView):
     model = Task
 
+    def get_context_data(self, **kwargs) -> dict:
+        context = super(TaskListView, self).get_context_data(**kwargs)
+        # username = self.request.GET.get("username", "")
+        # context["search_form"] = TaskSearchForm(
+        #     initial={"username": username}
+        # )
+        context["tasks"] = Task.objects.select_related("task_type").prefetch_related("assignees")
+        return context
+
+
+class TaskDetailView(generic.DetailView):
+    model = Task
