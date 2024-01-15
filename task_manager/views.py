@@ -6,7 +6,7 @@ from django.views import generic
 from task_manager.models import Task, TaskType, Position, Worker
 
 
-@login_required
+
 def index(request: HttpRequest) -> HttpResponse:
     completed_tasks = Task.objects.filter(is_completed=True).count()
     uncompleted_tasks = Task.objects.filter(is_completed=False).count()
