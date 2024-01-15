@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
 
-from task_manager.models import Task, TaskType, Position, Worker
+from task_manager.forms import MessageForm
+from task_manager.models import Task, TaskType, Position, Worker, Message
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -49,3 +51,21 @@ class TaskListView(generic.ListView):
 
 class TaskDetailView(generic.DetailView):
     model = Task
+    form_class = MessageForm
+
+
+class MessageCreateView(generic.CreateView):
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponseRedirect:
+        author_pk = self.kwargs.get("author_pk")
+        task_pk = self.kwargs.get("task_pk")
+        author = Worker.objects.get(pk=author_pk)
+        task = Task.objects.get(pk=task_pk)
+        Message.objects.create(
+            author=author,
+            task=task,
+            text=self.request.POST.get("text")
+        )
+        return HttpResponseRedirect(reverse_lazy(
+            "task_manager:task_detail",
+            args=[task.id]
+        ))
