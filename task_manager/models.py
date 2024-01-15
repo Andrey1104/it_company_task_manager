@@ -70,3 +70,18 @@ class Task(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class Message(models.Model):
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="messages"
+    )
+    text = models.TextField()
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        related_name="messages"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
