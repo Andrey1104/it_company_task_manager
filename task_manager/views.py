@@ -6,7 +6,6 @@ from django.views import generic
 from task_manager.models import Task, TaskType, Position, Worker
 
 
-
 def index(request: HttpRequest) -> HttpResponse:
     completed_tasks = Task.objects.filter(is_completed=True).count()
     uncompleted_tasks = Task.objects.filter(is_completed=False).count()
@@ -21,3 +20,19 @@ def index(request: HttpRequest) -> HttpResponse:
         "task_types": task_types,
     }
     return render(request, "index.html", context)
+
+
+class WorkerListView(generic.ListView):
+    model = Worker
+
+    def get_context_data(self, **kwargs) -> dict:
+        context = super(WorkerListView, self).get_context_data(**kwargs)
+        username = self.request.GET.get("username", "")
+        context["search_form"] = WorkerSearchForm(
+            initial={"username": username}
+        )
+        return context
+
+
+
+
