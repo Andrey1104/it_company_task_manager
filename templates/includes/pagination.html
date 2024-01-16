@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% load query_transform %}
+{% if is_paginated %}
+  <div class="pagination-container">
+    <ul class="pagination">
+      {% if page_obj.has_previous %}
+        <li>
+          <a
+              class="btn btn-primary p-lg-2 m-1"
+              href="?{% query_transform request page=page_obj.previous_page_number %}">Prev
+          </a>
+        </li>
+      {% endif %}
+      <li class="page-item-active"><span
+          class="page-link border-radius-lg m-1">{{ page_obj.number }} of {{ paginator.num_pages }}</span>
+      </li>
+      {% if page_obj.has_next %}
+        <li>
+          <a
+              class="btn btn-primary p-lg-2 m-1"
+              href="?page={{ page_obj.next_page_number }}">Next
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+{% endif %}

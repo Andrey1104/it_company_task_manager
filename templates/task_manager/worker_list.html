@@ -1,10 +1,29 @@
-{% extends "layouts/base.html" %}
+ {% extends "layouts/base.html" %}
 {% block content %}
-  <ul class="container d-block">
-    {% if worker_list %}
-      {% for worker in worker_list %}
-        <li>{{ worker }}</li>
-      {% endfor %}
-    {% endif %}
-  </ul>
+  <table class="container table border-radius-xl" style="background-color: rgba(220, 220, 220, 0.2);">
+    <tr class="text-center">
+      <td>ID</td>
+      <td>Name</td>
+      <td>Position</td>
+      <td>Email</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    {% for worker in worker_list %}
+    	<tr class="text-white text-center">
+        <td>{{ worker.id }}</td>
+        <td>{{ worker.first_name }} {{ worker.last_name }}</td>
+        <td>{{ worker.position }}</td>
+        <td>{{ worker.email }}</td>
+        <td><a href="{% url 'task_manager:worker_detail' worker.id %}" class="btn btn-sm btn-secondary">Detail</a></td>
+        <td><a href="{% url 'task_manager:worker_update' worker.id %}" class="btn btn-sm btn-info">Update</a></td>
+        <td>
+          {% if worker.id == user.id %}
+          	<a href="{% url 'task_manager:worker_delete' worker.id %}" class="btn btn-sm btn-danger">Delete</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    
 {% endblock %}

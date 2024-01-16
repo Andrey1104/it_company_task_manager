@@ -1,9 +1,9 @@
 {% extends "layouts/base.html" %}
 {% block content %}
-	<table class="container table border-radius-xl" style="background-color: rgba(150, 150, 150, 0.6);">
+  <table class="container table border-radius-xl" style="background-color: rgba(220, 220, 220, 0.2);">
     <tr class="text-white">
       <td>Name (Type)</td>
-      <td>        </td>
+      <td></td>
       <td>Description</td>
       <td>Priority</td>
       <td>Deadline</td>
@@ -11,11 +11,11 @@
       <td>Assignees</td>
     </tr>
     {% if task_list %}
-    	{% for task in tasks %}
-    		<tr class="text-white">
+      {% for task in tasks %}
+        <tr class="text-white">
           <td>{{ task.name }} <br>({{ task.task_type }})</td>
           <td><a href="{% url 'task_manager:task_detail' task.id %}"
-            class="btn btn-secondary btn-sm">Detail</a></td>
+                 class="btn btn-secondary btn-sm">Detail</a></td>
           <td>{{ task.description }}</td>
           <td>
             {% if task.priority == "URGENT" %}
@@ -33,20 +33,20 @@
           <td>{{ task.deadline }}</td>
           <td>
             {% if task.is_completed %}
-            	<span>✅</span>
+              <span>✅</span>
             {% else %}
               <span>❌</span>
-            {% endif %} 
+            {% endif %}
           </td>
           <td>
             {% for assigner in task.assignees.all %}
-            	<span>{{ assigner }}</span><br>
+              <span>{{ assigner }}</span><br>
             {% endfor %}
 
           </td>
         </tr>
-    	{% endfor %}
-    	
-    {% endif %} 
+      {% endfor %}
+
+    {% endif %}
   </table>
 {% endblock %}

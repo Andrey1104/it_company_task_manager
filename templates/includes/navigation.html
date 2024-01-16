@@ -19,6 +19,18 @@
           </button>
           <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
             <ul class="navbar-nav navbar-nav-hover ms-auto">
+              <li class="nav-item my-auto ms-3 ms-lg-0">
+                <a href="{% url 'index' %}" target="_blank"
+                   class="btn btn-sm bg-gradient-info  mb-0 me-1 mt-2 mt-md-0">Home</a>
+              </li>
+              <li class="nav-item my-auto ms-3 ms-lg-0">
+                <a href="{% url 'task_manager:task_create' %}" target="_blank"
+                   class="btn btn-sm bg-gradient-success  mb-0 me-1 mt-2 mt-md-0">Create task</a>
+              </li>
+              <li class="nav-item my-auto ms-3 ms-lg-0">
+                <a href="{% url 'task_manager:worker_create' %}" target="_blank"
+                   class="btn btn-sm bg-gradient-success  mb-0 me-1 mt-2 mt-md-0">Create worker</a>
+              </li>
               <li class="nav-item dropdown dropdown-hover mx-2">
                 <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuPages"
                    data-bs-toggle="dropdown" aria-expanded="false">
@@ -64,7 +76,7 @@
                     <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
                       Account
                     </h6>
-                    <a href="{% url 'login'%}"> class="dropdown-item border-radius-md">
+                    <a href="{% url 'login' %}"> class="dropdown-item border-radius-md">
                       <span>Sign In</span>
                     </a>
                   </div>
@@ -376,41 +388,27 @@
                 </a>
               </li>
               <li class="nav-item my-auto ms-3 ms-lg-0">
-                <a href="https://appseed.us/product/django-material-kit2-pro" target="_blank"
-                   class="btn btn-sm  bg-gradient-primary  mb-0 me-1 mt-2 mt-md-0">Upgrade to Pro</a>
+                <a href="{% url 'task_manager:worker_detail' user.id %}"
+                   class="btn btn-sm  bg-gradient-primary  mb-0 me-1 mt-2 mt-md-0">Profile</a>
               </li>
-
               {% if user.is_authenticated %}
-                <form action="{% url 'logout' %}" method="post">
-                  {% csrf_token %}
-                  <li class="nav-item ms-lg-auto">
-                    <button class="nav-link nav-link-icon me-2"
-                       type="submit">
-                      <i class="fa fa-sign-out me-1"></i>
-                      <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
-                         data-bs-placement="bottom" title="Sign OUT">Logout</p>
-                    </button>
-                  </li>
-                </form>
-              {% else %}
-                <form action="{% url 'login' %}" method="post">
-                  {% csrf_token %}
-                  <li class="nav-item ms-lg-auto">
-                    <a class="nav-link nav-link-icon me-2"
-                       href="{% url 'login' %}?next={{ request.path }}">
-                      <i class="fa fa-sign-out me-1"></i>
-                      <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
-                         data-bs-placement="bottom" title="Sign OUT">Login</p>
-                    </a>
-                  </li>
-                </form>
+                <li class="nav-item ms-lg-auto">
+                  <form action="{% url 'logout' %}?next={{ request.path }}" method="post" style="display: none;"
+                        id="logout-form">
+                    {% csrf_token %}
+                  </form>
+                  <a class="nav-link nav-link-icon me-2" href="#"
+                     onclick="document.getElementById('logout-form').submit();">
+                    <i class="fa fa-sign-out me-1"></i>
+                    <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
+                       data-bs-placement="bottom" title="Sign OUT">Logout</p>
+                  </a>
+                </li>
               {% endif %}
-
             </ul>
           </div>
         </div>
       </nav>
-      <!-- End Navbar -->
     </div>
   </div>
 </div>
