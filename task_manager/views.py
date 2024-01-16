@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from it_company_task_manager import settings
-from task_manager.forms import MessageForm
+from task_manager.forms import MessageForm, WorkerCreateForm, WorkerUpdateForm, TaskCreateForm
 from task_manager.models import Task, TaskType, Position, Worker, Message
 
 
@@ -28,6 +28,7 @@ def index(request: HttpRequest) -> HttpResponse:
 
 class WorkerListView(LoginRequiredMixin, generic.ListView):
     model = Worker
+    paginate_by = 3
 
 
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
@@ -36,10 +37,13 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
 
 class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
     model = Worker
+    form_class = WorkerCreateForm
 
 
 class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Worker
+    form_class = WorkerUpdateForm
+    success_url = reverse_lazy("task_manager:worker_list")
 
 
 class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -48,14 +52,16 @@ class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
+    paginate_by = 3
 
     def get_context_data(self, **kwargs) -> dict:
         context = super(TaskListView, self).get_context_data(**kwargs)
-        # username = self.request.GET.get("username", "")
-        # context["search_form"] = TaskSearchForm(
-        #     initial={"username": username}
-        # )
-        context["tasks"] = Task.objects.select_related("task_type").prefetch_related("assignees")
+        context["tasks"] = (
+            Task.objects
+            .select_related("task_type")
+            .prefetch_related("assignees")
+        )
+        context["paginate_by"] = self.paginate_by
         return context
 
 
@@ -67,6 +73,22 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
         context = super(TaskDetailView, self).get_context_data(**kwargs)
         context["message_form"] = MessageForm()
         return context
+
+
+class TaskCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Task
+    form_class = TaskCreateForm
+    success_url = reverse_lazy("task_manager:task_list")
+
+
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Task
+    form_class = TaskUpdateForm
+    success_url = reverse_lazy("task_manager:task_list")
+
+
+class TaskDeleteView(LoginRequiredMixin, generic.DetailView):
+    model = Task
 
 
 class MessageCreateView(LoginRequiredMixin, generic.CreateView):

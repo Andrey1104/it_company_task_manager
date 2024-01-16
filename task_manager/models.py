@@ -40,6 +40,10 @@ class Worker(AbstractUser):
         return f"{self.first_name} {self.last_name}"
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=255)
+
+
 class Task(models.Model):
     PRIORITY_CHOICES = [
         ("NON_URGENT", "Non-urgent"),
@@ -65,6 +69,12 @@ class Task(models.Model):
     assignees = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         related_name="assigned_tasks"
+    )
+    tags = models.ManyToManyField(
+        Tag,
+        related_name="tasks",
+        blank=True,
+        null=True
     )
 
     class Meta:
@@ -92,4 +102,7 @@ class Message(models.Model):
         ordering = ("-created_at",)
 
     def __str__(self) -> str:
-        return f"{self.author}:\n{self.text}\n{self.created_at}"
+        return f"{self.author}: \n {self.text} \n {self.created_at}"
+
+
+
