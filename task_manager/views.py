@@ -6,8 +6,23 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 
-from task_manager.forms import MessageForm, WorkerCreateForm, WorkerUpdateForm, TaskCreateForm, TaskUpdateForm
-from task_manager.models import Task, TaskType, Position, Worker, Message
+from task_manager.forms import (
+    MessageForm,
+    WorkerCreateForm,
+    WorkerUpdateForm,
+    TaskCreateForm,
+    TaskUpdateForm
+)
+from task_manager.models import (
+    Task,
+    TaskType,
+    Position,
+    Worker,
+    Message,
+    Tag,
+    Project,
+    Team
+)
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -29,6 +44,7 @@ def index(request: HttpRequest) -> HttpResponse:
 class WorkerListView(LoginRequiredMixin, generic.ListView):
     model = Worker
     paginate_by = 3
+    queryset = Worker.objects.select_related("position")
 
 
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
@@ -123,3 +139,24 @@ class MessageCreateView(LoginRequiredMixin, generic.CreateView):
     def get_success_url(self):
         task_pk = self.kwargs.get("pk_task")
         return reverse_lazy("task_manager:task_detail", args=[task_pk])
+
+
+class TeamListView(LoginRequiredMixin, generic.ListView):
+    model = Team
+
+
+class TeamDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Team
+
+
+class TeamCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Team
+
+
+class TeamUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Team
+
+
+class TeamDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Team
+
