@@ -1,4 +1,5 @@
 {% extends "layouts/base.html" %}
+{% load crispy_forms_filters %}
 {% block content %}
   <div class="container text-white">
     <h3 class="text-white">{{ task.name }}</h3>
@@ -8,4 +9,36 @@
     <p>Priority: {{ task.priority }}<br> Deadline: {{ task.deadline }}</p>
     <hr>
   </div>
+  <div class="container">
+    <h2>Chat</h2>
+    <form
+        action="{% url 'task_manager:message_create' pk_author=user.id pk_task=task.pk %}"
+        method="post" class="opacity-7">
+      {% csrf_token %}
+      <div class="bg-white row w-70">
+        {{ message_form|crispy }}
+      </div>
+      <input type="submit" value="Send" class="btn btn-success btn-lg mt-3">
+    </form>
+
+
+  </div>
+  <div>
+    {% for mes in task.messages.all %}
+      {% if mes.author.id == user.id %}
+        <div class="col-md-6 offset-md-6">
+          <div class="text-white">{{ mes }}</div>
+          <hr>
+          <br>
+        </div>
+      {% else %}
+        <div class="col-md-6">
+          <div class="text-white message sent">{{ mes }}</div>
+          <hr>
+          <br>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% include "includes/chat.html" %}
 {% endblock %}

@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
+from it_company_task_manager import settings
 from task_manager.forms import MessageForm
 from task_manager.models import Task, TaskType, Position, Worker, Message
 
@@ -24,7 +26,7 @@ def index(request: HttpRequest) -> HttpResponse:
     return render(request, "task_manager/index.html", context)
 
 
-class WorkerListView(generic.ListView):
+class WorkerListView(LoginRequiredMixin, generic.ListView):
     model = Worker
 
     def get_context_data(self, **kwargs) -> dict:
@@ -36,7 +38,7 @@ class WorkerListView(generic.ListView):
         return context
 
 
-class TaskListView(generic.ListView):
+class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
 
     def get_context_data(self, **kwargs) -> dict:
@@ -49,23 +51,32 @@ class TaskListView(generic.ListView):
         return context
 
 
-class TaskDetailView(generic.DetailView):
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
     form_class = MessageForm
 
+    def get_context_data(self, **kwargs) -> dict:
+        context = super(TaskDetailView, self).get_context_data(**kwargs)
+        context["message_form"] = MessageForm()
+        return context
 
-class MessageCreateView(generic.CreateView):
-    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponseRedirect:
-        author_pk = self.kwargs.get("author_pk")
-        task_pk = self.kwargs.get("task_pk")
-        author = Worker.objects.get(pk=author_pk)
-        task = Task.objects.get(pk=task_pk)
-        Message.objects.create(
-            author=author,
-            task=task,
-            text=self.request.POST.get("text")
-        )
-        return HttpResponseRedirect(reverse_lazy(
-            "task_manager:task_detail",
-            args=[task.id]
-        ))
+
+class MessageCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Message
+    form_class = MessageForm
+    template_name = "task_manager/task_detail.html"
+
+    def form_valid(self, form: MessageForm) -> HttpResponse:
+        author_pk = self.kwargs.get("pk_author")
+        task_pk = self.kwargs.get("pk_task")
+
+        author = get_object_or_404(Worker, pk=author_pk)
+        task = get_object_or_404(Task, pk=task_pk)
+
+        form.instance.author = author
+        form.instance.task = task
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        task_pk = self.kwargs.get("pk_task")
+        return reverse_lazy("task_manager:task_detail", args=[task_pk])

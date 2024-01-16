@@ -28,7 +28,9 @@ class Worker(AbstractUser):
     position = models.ForeignKey(
         Position,
         on_delete=models.CASCADE,
-        related_name="workers"
+        related_name="workers",
+        blank=True,
+        null=True
     )
 
     class Meta:
@@ -66,7 +68,7 @@ class Task(models.Model):
     )
 
     class Meta:
-        ordering = ("-deadline",)
+        ordering = ("deadline",)
 
     def __str__(self) -> str:
         return self.name
@@ -85,3 +87,9 @@ class Message(models.Model):
         related_name="messages"
     )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("-created_at",)
+
+    def __str__(self) -> str:
+        return f"{self.author}:\n{self.text}\n{self.created_at}"

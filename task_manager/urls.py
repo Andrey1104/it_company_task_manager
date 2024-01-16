@@ -4,7 +4,7 @@ from django.urls import path, include
 from task_manager.views import (
     WorkerListView,
     TaskListView,
-    TaskDetailView,
+    TaskDetailView, MessageCreateView,
 )
 
 app_name = 'task_manager'
@@ -12,5 +12,6 @@ urlpatterns = [
     path("workers/", WorkerListView.as_view(), name="worker_list"),
     path("tasks/", TaskListView.as_view(), name="task_list"),
     path("tasks/<int:pk>/", TaskDetailView.as_view(), name="task_detail"),
+    path("message/<int:pk_author>/<int:pk_task>", MessageCreateView.as_view(), name="message_create"),
 
 ]
