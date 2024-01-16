@@ -112,19 +112,13 @@ class Message(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    task = models.ForeignKey(
+    task = models.ManyToManyField(
         Task,
-        on_delete=models.CASCADE,
         related_name="teams",
-        blank=True,
-        null=True
     )
-    member = models.ForeignKey(
+    member = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
         related_name="teams",
-        blank=True,
-        null=True
     )
 
     class Meta:

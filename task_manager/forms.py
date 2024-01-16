@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from task_manager.models import Message, Worker, Task
+from task_manager.models import Message, Worker, Task, Team
 
 
 class MessageForm(forms.ModelForm):
@@ -54,3 +54,29 @@ class TaskUpdateForm(forms.ModelForm):
             "assignees": forms.CheckboxSelectMultiple(),
             "tags": forms.CheckboxSelectMultiple()
         }
+
+
+class TeamCreateForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = "__all__"
+        widgets = {
+            "members": forms.CheckboxSelectMultiple(),
+            "tasks": forms.CheckboxSelectMultiple(),
+        }
+
+
+class TeamTaskAddForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = ["task"]
+        widgets = {"task": forms.CheckboxSelectMultiple()}
+
+
+class TeamMemberAddForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = ["member"]
+        widgets = {"member": forms.CheckboxSelectMultiple()}
+
+

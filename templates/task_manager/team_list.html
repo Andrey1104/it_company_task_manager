@@ -2,7 +2,11 @@
 {% block content %}
 	<div>
     <h1>
-      {{ team_list }}
+      Teams:
     </h1>
+    {% for team in team_list %}
+    	<li><a href="{% url 'task_manager:team_detail' team.id %}" class="btn btn-primary">{{ team }}</a></li>
+    {% endfor %}
+    
   </div>
-{% endblock %}
+{% endblock %} 

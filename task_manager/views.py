@@ -11,7 +11,7 @@ from task_manager.forms import (
     WorkerCreateForm,
     WorkerUpdateForm,
     TaskCreateForm,
-    TaskUpdateForm
+    TaskUpdateForm, TeamCreateForm, TeamTaskAddForm, TeamMemberAddForm
 )
 from task_manager.models import (
     Task,
@@ -143,6 +143,7 @@ class MessageCreateView(LoginRequiredMixin, generic.CreateView):
 
 class TeamListView(LoginRequiredMixin, generic.ListView):
     model = Team
+    queryset = Team.objects.all().prefetch_related("member", "task")
 
 
 class TeamDetailView(LoginRequiredMixin, generic.DetailView):
@@ -151,12 +152,64 @@ class TeamDetailView(LoginRequiredMixin, generic.DetailView):
 
 class TeamCreateView(LoginRequiredMixin, generic.CreateView):
     model = Team
+    form_class = TeamCreateForm
+    success_url = reverse_lazy("task_manager:team_list")
 
 
 class TeamUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Team
+    fields = "__all__"
 
 
 class TeamDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Team
 
+
+class TeamTaskDeleteView(LoginRequiredMixin, generic.UpdateView):
+    def get(self, request, *args, **kwargs):
+        team_id = kwargs.get("team_pk")
+        task_id = kwargs.get("task_pk")
+        team = Team.objects.get(pk=team_id)
+        task = Task.objects.get(pk=task_id)
+        if task in team.task.all():
+            team.task.remove(task)
+            team.save()
+
+        return HttpResponseRedirect(reverse_lazy(
+            "task_manager:team_detail",
+            args=[team_id]
+        ))
+
+
+class TeamTaskAddView(LoginRequiredMixin, generic.UpdateView):
+    model = Team
+    form_class = TeamTaskAddForm
+
+    def get_success_url(self):
+        team_id = self.object.id
+        return reverse_lazy("task_manager:team_detail", args=[team_id])
+
+
+class TeamMemberDeleteView(LoginRequiredMixin, generic.UpdateView):
+    def get(self, request, *args, **kwargs):
+        team_id = kwargs.get("team_pk")
+        member_id = kwargs.get("member_pk")
+        team = Team.objects.get(pk=team_id)
+        member = Worker.objects.get(pk=member_id)
+        if member in team.member.all():
+            team.member.remove(member)
+            team.save()
+
+        return HttpResponseRedirect(reverse_lazy(
+            "task_manager:team_detail",
+            args=[team_id]
+        ))
+
+
+class TeamMemberAddView(LoginRequiredMixin, generic.UpdateView):
+    model = Team
+    form_class = TeamMemberAddForm
+
+    def get_success_url(self):
+        team_id = self.object.id
+        return reverse_lazy("task_manager:team_detail", args=[team_id])
