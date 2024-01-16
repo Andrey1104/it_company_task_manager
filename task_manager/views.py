@@ -29,13 +29,21 @@ def index(request: HttpRequest) -> HttpResponse:
 class WorkerListView(LoginRequiredMixin, generic.ListView):
     model = Worker
 
-    def get_context_data(self, **kwargs) -> dict:
-        context = super(WorkerListView, self).get_context_data(**kwargs)
-        # username = self.request.GET.get("username", "")
-        # context["search_form"] = WorkerSearchForm(
-        #     initial={"username": username}
-        # )
-        return context
+
+class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Worker
+
+
+class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Worker
+
+
+class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Worker
+
+
+class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Worker
 
 
 class TaskListView(LoginRequiredMixin, generic.ListView):
