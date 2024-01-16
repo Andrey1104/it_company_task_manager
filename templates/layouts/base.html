@@ -24,18 +24,20 @@
   {% block stylesheets %}{% endblock stylesheets %}
 </head>
 <body class="bg-gray-200" style="background-image: url('{{ ASSETS_ROOT }}/img/bg1.jpg'); background-size: cover;">
-{% include 'includes/navigation.html' %}
-<div class="mt-lg-7 mb-lg-5">
-  {% block content %}
-  {% endblock content %}
+<div class="container">
+  {% include 'includes/navigation.html' %}
+  <div class="mt-lg-7">
+    {% block content %}
+    {% endblock content %}
+  </div>
   <div class="d-flex flex-column align-items-center mb-lg-4">
     {% block pagination %}
       {% include "includes/pagination.html" %}
     {% endblock %}
   </div>
-  
+
 </div>
-<button id="scrollToTopBtn" class="btn btn-success btn-sm" title="Up">&#8679;</button>
+<button id="scrollToTopBtn" class="btn btn-secondary btn-sm" title="Up">👆🏻</button>
 {% include 'includes/scripts.html' %}
 {% block javascripts %}{% endblock javascripts %}
 

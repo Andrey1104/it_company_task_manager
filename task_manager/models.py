@@ -74,7 +74,6 @@ class Task(models.Model):
         Tag,
         related_name="tasks",
         blank=True,
-        null=True
     )
 
     class Meta:

@@ -1,12 +1,12 @@
-from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
-from it_company_task_manager import settings
-from task_manager.forms import MessageForm, WorkerCreateForm, WorkerUpdateForm, TaskCreateForm
+
+from task_manager.forms import MessageForm, WorkerCreateForm, WorkerUpdateForm, TaskCreateForm, TaskUpdateForm
 from task_manager.models import Task, TaskType, Position, Worker, Message
 
 
@@ -53,16 +53,11 @@ class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
 class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     paginate_by = 3
-
-    def get_context_data(self, **kwargs) -> dict:
-        context = super(TaskListView, self).get_context_data(**kwargs)
-        context["tasks"] = (
-            Task.objects
-            .select_related("task_type")
-            .prefetch_related("assignees")
-        )
-        context["paginate_by"] = self.paginate_by
-        return context
+    queryset = (
+        Task.objects
+        .select_related("task_type")
+        .prefetch_related("assignees")
+    )
 
 
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
@@ -71,6 +66,9 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs) -> dict:
         context = super(TaskDetailView, self).get_context_data(**kwargs)
+        task = self.get_object()
+        messages = task.messages.select_related()
+        context["messages"] = messages
         context["message_form"] = MessageForm()
         return context
 
@@ -89,6 +87,21 @@ class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class TaskDeleteView(LoginRequiredMixin, generic.DetailView):
     model = Task
+
+
+class TaskStatusUpdateView(LoginRequiredMixin, generic.UpdateView):
+    def get(self, request, *args, **kwargs):
+        task_id = kwargs.get("pk")
+        task = Task.objects.get(pk=task_id)
+        if not task.is_completed:
+            task.is_completed = True
+        else:
+            task.is_completed = False
+        task.save()
+        return HttpResponseRedirect(reverse_lazy(
+            "task_manager:task_detail",
+            args=[task_id]
+        ))
 
 
 class MessageCreateView(LoginRequiredMixin, generic.CreateView):

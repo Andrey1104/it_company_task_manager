@@ -11,7 +11,7 @@
       <td>Assignees</td>
     </tr>
     {% if task_list %}
-      {% for task in tasks %}
+      {% for task in task_list %}
         <tr class="text-white">
           <td>{{ task.name }} <br>({{ task.task_type }})</td>
           <td><a href="{% url 'task_manager:task_detail' task.id %}"
@@ -42,11 +42,9 @@
             {% for assigner in task.assignees.all %}
               <span>{{ assigner }}</span><br>
             {% endfor %}
-
           </td>
         </tr>
       {% endfor %}
-
     {% endif %}
   </table>
 {% endblock %}

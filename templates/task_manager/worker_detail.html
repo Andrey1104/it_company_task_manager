@@ -1,7 +1,10 @@
 {% extends "layouts/base.html" %}
 {% block content %}
-	<div>
+  <div class="container">
     <h2>{{ worker.first_name }} {{ worker.last_name }}</h2>
+    <hr>
+    <a href="{% url 'task_manager:worker_update' worker.id %}" class="btn btn-sm btn-info mt-3">Update</a>
+    <a href="{% url 'task_manager:worker_delete' worker.id %}" class="btn btn-sm btn-danger mt-3">Delete</a>
     <hr>
     <h4>position: {{ worker.position }}</h4>
     <hr>

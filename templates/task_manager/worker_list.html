@@ -1,4 +1,4 @@
- {% extends "layouts/base.html" %}
+{% extends "layouts/base.html" %}
 {% block content %}
   <table class="container table border-radius-xl" style="background-color: rgba(220, 220, 220, 0.2);">
     <tr class="text-center">
@@ -11,7 +11,7 @@
       <td></td>
     </tr>
     {% for worker in worker_list %}
-    	<tr class="text-white text-center">
+      <tr class="text-white text-center">
         <td>{{ worker.id }}</td>
         <td>{{ worker.first_name }} {{ worker.last_name }}</td>
         <td>{{ worker.position }}</td>
@@ -20,10 +20,10 @@
         <td><a href="{% url 'task_manager:worker_update' worker.id %}" class="btn btn-sm btn-info">Update</a></td>
         <td>
           {% if worker.id == user.id %}
-          	<a href="{% url 'task_manager:worker_delete' worker.id %}" class="btn btn-sm btn-danger">Delete</a>
+            <a href="{% url 'task_manager:worker_delete' worker.id %}" class="btn btn-sm btn-danger">Delete</a>
           {% endif %}
         </td>
       </tr>
     {% endfor %}
-    
+  </table>
 {% endblock %}
