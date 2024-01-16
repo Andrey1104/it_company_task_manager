@@ -2079,7 +2079,8 @@ textarea.form-control-lg {
   .form-check-input:disabled {
     pointer-events: none;
     filter: none;
-    opacity: 0.5; }
+    opacity: 0.5;
+  }
   .form-check-input[disabled] ~ .form-check-label, .form-check-input:disabled ~ .form-check-label {
     opacity: 0.5; }
 
