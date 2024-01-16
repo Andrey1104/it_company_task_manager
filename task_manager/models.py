@@ -43,6 +43,12 @@ class Worker(AbstractUser):
 class Tag(models.Model):
     name = models.CharField(max_length=255)
 
+    class Meta:
+        ordering = ("name",)
+
+    def __str__(self) -> str:
+        return self.name
+
 
 class Task(models.Model):
     PRIORITY_CHOICES = [
@@ -104,4 +110,48 @@ class Message(models.Model):
         return f"{self.author}: \n {self.text} \n {self.created_at}"
 
 
+class Team(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        related_name="teams",
+        blank=True,
+        null=True
+    )
+    member = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="teams",
+        blank=True,
+        null=True
+    )
 
+    class Meta:
+        ordering = ("name",)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField()
+    deadline = models.DateField(null=True, blank=True)
+    team = models.ForeignKey(
+        Team,
+        on_delete=models.CASCADE,
+        related_name="projects",
+        blank=True
+    )
+    task = models.ManyToManyField(
+        Task,
+        related_name="projects",
+        blank=True
+    )
+
+    class Meta:
+        ordering = ("name",)
+
+    def __str__(self) -> str:
+        return self.name
