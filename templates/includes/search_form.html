@@ -1,0 +1,9 @@
+{% load crispy_forms_filters %}
+<form action="" method="get">
+  <div class="d-flex align-items-center justify-content-between w-25">
+    <div class="w-75">
+      {{ search_form|crispy }}
+    </div>
+    <input type="submit" value=" 🔍 " class="btn btn-light">
+  </div>
+</form>

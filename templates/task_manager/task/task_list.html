@@ -1,5 +1,6 @@
 {% extends "layouts/base.html" %}
 {% block content %}
+  {% include "includes/search_form.html" %}
   <table class="container table border-radius-xl" style="background-color: rgba(220, 220, 220, 0.2);">
     <tr class="text-white">
       <td>Name (Type)</td>
@@ -19,7 +20,12 @@
           <td><a href="{% url 'task_manager:task_detail' task.id %}"
                  class="btn btn-secondary btn-sm">Detail</a></td>
           <td>{{ task.description }}</td>
-          <td>{{ task.tags }}</td>
+          <td>
+            {% for tag in task.tags.all %}
+            	{{ tag }}<br>
+            {% endfor %}
+            
+          </td>
           <td>
             {% if task.priority == "URGENT" %}
               <span class="text-primary">{{ task.priority }}</span>

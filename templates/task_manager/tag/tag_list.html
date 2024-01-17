@@ -1,18 +1,25 @@
 {% extends "layouts/base.html" %}
 {% block content %}
   <div class="container">
-    <hr>
+    {% include "includes/search_form.html" %}
     <a href="{% url 'task_manager:tag_create' %}" class="btn btn-success btn-lg ml-3">Create tag</a>
-    <hr>
-    <table>
+    <table class="table">
+      <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Update</td>
+        <td>Delete</td>
+        <td>Tasks</td>
+      </tr>
       {% for tag in tag_list %}
         <tr>
+          <td>{{ tag.id }}</td>
           <td>{{ tag }}</td>
           <td><a href="{% url 'task_manager:tag_update' tag.pk %}" class="btn btn-info btn-sm">Update</a></td>
           <td><a href="{% url 'task_manager:tag_delete' tag.pk %}" class="btn btn-danger btn-sm">Delete</a></td>
           <td>
-            {% for task in tag.tasks.prefetch_related %}
-              <a href="{% url 'task_manager:task_detail' task.id %}">{{ task }}</a>
+            {% for task in tag.tasks.all %}
+              <a href="{% url 'task_manager:task_detail' task.id %}">{{ task }}</a><br>
             {% endfor %}
           </td>
         </tr>

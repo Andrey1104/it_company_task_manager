@@ -18,9 +18,10 @@ from task_manager.views import (
     TeamCreateView,
     TeamDeleteView,
     TeamUpdateView,
-    TeamTaskAddView, TeamMemberAddView, TagListView, TagDetailView,
+    TeamTaskAddView, TeamMemberAddView, TagListView,
     TagCreateView, TagDeleteView, TagUpdateView, TeamMemberDeleteView, TeamTaskDeleteView, ProjectListView,
-    ProjectDetailView, ProjectCreateView, ProjectDeleteView, ProjectUpdateView,
+    ProjectCreateView, ProjectDeleteView, ProjectUpdateView, ProjectTeamDeleteView,
+    ProjectTaskDeleteView,
 )
 
 app_name = 'task_manager'
@@ -60,14 +61,22 @@ urlpatterns = [
         name="message_create"
     ),
     path("tags/", TagListView.as_view(), name="tag_list"),
-    path("tags/<int:pk>/", TagDetailView.as_view(), name="tag_detail"),
     path("tags/create/", TagCreateView.as_view(), name="tag_create"),
     path("tags/<int:pk>/delete/", TagDeleteView.as_view(), name="tag_delete"),
     path("tags/<int:pk>/update/", TagUpdateView.as_view(), name="tag_update"),
 
     path("projects/", ProjectListView.as_view(), name="project_list"),
-    path("projects/<int:pk>/", ProjectDetailView.as_view(), name="project_detail"),
     path("projects/create/", ProjectCreateView.as_view(), name="project_create"),
     path("projects/<int:pk>/delete/", ProjectDeleteView.as_view(), name="project_delete"),
     path("projects/<int:pk>/update/", ProjectUpdateView.as_view(), name="project_update"),
+    path(
+        "projects/<int:project_pk>/<int:team_pk>/task_delete/",
+        ProjectTeamDeleteView.as_view(),
+        name="project_team_delete"
+    ),
+    path(
+        "projects/<int:project_pk>/<int:task_pk>/member_delete/",
+        ProjectTaskDeleteView.as_view(),
+        name="project_task_delete"
+    ),
 ]

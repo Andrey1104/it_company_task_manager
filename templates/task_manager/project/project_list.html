@@ -1,10 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "layouts/base.html" %}
+{% block content %}
+  <div>
+    <h2 class="text-center">Project list:</h2>
+    <hr>
+    <div>
+      {% include "includes/search_form.html" %}
+      <a href="{% url 'task_manager:project_create' %}" class="btn btn-primary">Create project</a>
+    </div>
+    <table class="table">
+      <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Description</td>
+        <td>Deadline</td>
+        <td>Task</td>
+        <td>Team</td>
+        <td>Edit</td>
+        <td></td>
+      </tr>
+      {% for project in project_list %}
+        <tr class="text-white">
+          <td>{{ project.id }}</td>
+          <td>{{ project.name }}</td>
+          <td>{{ project.description }}</td>
+          <td>
+            {% if project.deadline %}
+            	{{ project.deadline }}
+            {% endif %}
+          </td>
+          <td>
+            {% for task in project.task.all %}
+              {{ task }}<a href="{% url 'task_manager:project_task_delete' project.pk task.pk %}" class="m-2">❌</a><br>
+            {% endfor %}
+          </td>
+          <td>
+            {% if project.team %}
+              <a href="{% url 'task_manager:team_detail' project.team.pk %}">{{ project.team }}</a>
+              <a href="{% url 'task_manager:project_team_delete' project.pk project.team.pk %}" class="m-2">❌</a><br>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'task_manager:project_update' project.id %}">✏️</a>
+          </td>
+        <td><a href="{% url 'task_manager:project_delete' project.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endblock %}

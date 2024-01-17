@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from task_manager.models import Message, Worker, Task, Team, Tag
+from task_manager.models import Message, Worker, Task, Team, Tag, Project
 
 
 class StyleFormMixin(forms.ModelForm):
@@ -106,11 +106,80 @@ class TeamMemberAddForm(StyleFormMixin, forms.ModelForm):
 class TagCreateForm(StyleFormMixin, forms.ModelForm):
     tasks = forms.ModelMultipleChoiceField(
         queryset=Task.objects.prefetch_related("tags"),
-        widget=forms.CheckboxSelectMultiple,
         required=False,
     )
 
     class Meta:
         model = Tag
+        fields = ["name", "tasks"]
+        attrs = StyleFormMixin.Meta.attrs
+        widgets = {"tasks": forms.SelectMultiple()}
+
+
+class ProjectForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = "__all__"
+        widgets = {
+            "task": forms.CheckboxSelectMultiple(),
+        }
+        attrs = StyleFormMixin.Meta.attrs
+
+
+class SearchFormMixin(forms.ModelForm):
+    name = forms.CharField(
+        max_length=255,
+        widget=forms.TextInput(attrs={"placeholder": "Enter name..."}),
+        required=False,
+        label=""
+    )
+
+    class Meta:
+        abstract = True
+
+    def __init__(self, *args, **kwargs):
+        super(SearchFormMixin, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({"class": "common-form-field-style"})
+
+
+class TaskSearchForm(SearchFormMixin, StyleFormMixin):
+    class Meta:
+        model = Task
         fields = ["name"]
+        attrs = StyleFormMixin.Meta.attrs
+
+
+class TeamSearchForm(SearchFormMixin, StyleFormMixin):
+    class Meta:
+        model = Team
+        fields = ["name"]
+        attrs = StyleFormMixin.Meta.attrs
+
+
+class TagSearchForm(SearchFormMixin, StyleFormMixin):
+    class Meta:
+        model = Tag
+        fields = ["name"]
+        attrs = StyleFormMixin.Meta.attrs
+
+
+class ProjectSearchForm(SearchFormMixin, StyleFormMixin):
+    class Meta:
+        model = Project
+        fields = ["name"]
+        attrs = StyleFormMixin.Meta.attrs
+
+
+class WorkerSearchForm(StyleFormMixin, forms.ModelForm):
+    username = forms.CharField(
+        max_length=255,
+        widget=forms.TextInput(attrs={"placeholder": "Enter username..."}),
+        required=False,
+        label=""
+    )
+
+    class Meta:
+        model = Worker
+        fields = ["username"]
         attrs = StyleFormMixin.Meta.attrs

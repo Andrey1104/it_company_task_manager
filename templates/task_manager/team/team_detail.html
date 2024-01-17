@@ -5,36 +5,4 @@
       Team detail:
     </h2>
   </div>
-  <div>
-    <table class="table">
-      <tr>
-        <td>ID</td>
-        <td>Name</td>
-        <td></td>
-        <td>Tasks</td>
-        <td>Members</td>
-      </tr>
-      <tr>
-        <td>{{ team.pk }}</td>
-        <td><h3>{{ team.name }}</h3></td>
-        <td>
-          <a href="{% url 'task_manager:team_member_add' team.id %}" class="btn btn-lg btn-success ">Add member</a>
-          <a href="{% url 'task_manager:team_task_add' team.id %}" class="btn btn-lg btn-success ">Add task</a>
-        </td>
-        <td class="text-white">
-          {% for task in team.task.prefetch_related %}
-            <a href="{% url 'task_manager:task_detail' task.pk %}">{{ task }}</a>
-            <a href="{% url 'task_manager:team_task_delete' team.pk task.id %}" class="m-2">❌</a><br>
-          {% endfor %}
-        </td>
-        <td class="text-white">
-          {% for member in team.member.all %}
-            <a href="{% url 'task_manager:worker_detail' member.pk %}">{{ member }}</a>
-            <a href="{% url 'task_manager:team_member_delete' team.pk member.id %}" class="m-2">❌</a><br>
-          {% endfor %}
-
-        </td>
-      </tr>
-    </table>
-  </div>
 {% endblock %}

@@ -42,7 +42,7 @@ class Worker(AbstractUser):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
 
     class Meta:
         ordering = ("name",)
@@ -140,7 +140,8 @@ class Project(models.Model):
         Team,
         on_delete=models.CASCADE,
         related_name="projects",
-        blank=True
+        blank=True,
+        null=True
     )
     task = models.ManyToManyField(
         Task,
@@ -153,3 +154,6 @@ class Project(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    def get_absolute_url(self) -> str:
+        return reverse("task_manager:project_list")

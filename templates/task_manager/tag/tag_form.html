@@ -1,11 +1,10 @@
 {% extends "layouts/base.html" %}
 {% load crispy_forms_filters %}
 {% block content %}
-  <h2 class="text-center">{{ object|yesno:"Update,Create" }} tag:</h2>
+  <h2 class="text-center">Tag menu:</h2>
   <form action="" method="post">
     {% csrf_token %}
-    {{ form }}
-    {{ form.tasks.as_p }}
+    {{ form|crispy }}
     <input type="submit" value="Submit" class="btn btn-success">
   </form>
 {% endblock %}
