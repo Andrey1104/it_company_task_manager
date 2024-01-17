@@ -19,7 +19,8 @@ from task_manager.views import (
     TeamDeleteView,
     TeamUpdateView,
     TeamTaskAddView, TeamMemberAddView, TagListView, TagDetailView,
-    TagCreateView, TagDeleteView, TagUpdateView, TeamMemberDeleteView, TeamTaskDeleteView,
+    TagCreateView, TagDeleteView, TagUpdateView, TeamMemberDeleteView, TeamTaskDeleteView, ProjectListView,
+    ProjectDetailView, ProjectCreateView, ProjectDeleteView, ProjectUpdateView,
 )
 
 app_name = 'task_manager'
@@ -64,4 +65,9 @@ urlpatterns = [
     path("tags/<int:pk>/delete/", TagDeleteView.as_view(), name="tag_delete"),
     path("tags/<int:pk>/update/", TagUpdateView.as_view(), name="tag_update"),
 
+    path("projects/", ProjectListView.as_view(), name="project_list"),
+    path("projects/<int:pk>/", ProjectDetailView.as_view(), name="project_detail"),
+    path("projects/create/", ProjectCreateView.as_view(), name="project_create"),
+    path("projects/<int:pk>/delete/", ProjectDeleteView.as_view(), name="project_delete"),
+    path("projects/<int:pk>/update/", ProjectUpdateView.as_view(), name="project_update"),
 ]

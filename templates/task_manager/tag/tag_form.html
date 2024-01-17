@@ -1,6 +1,7 @@
 {% extends "layouts/base.html" %}
 {% load crispy_forms_filters %}
 {% block content %}
+  <h2 class="text-center">{{ object|yesno:"Update,Create" }} tag:</h2>
   <form action="" method="post">
     {% csrf_token %}
     {{ form }}

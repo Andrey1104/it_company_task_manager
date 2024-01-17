@@ -4,7 +4,21 @@ from django.contrib.auth.forms import UserCreationForm
 from task_manager.models import Message, Worker, Task, Team, Tag
 
 
-class MessageForm(forms.ModelForm):
+class StyleFormMixin(forms.ModelForm):
+    class Meta:
+        attrs = {
+            "style": "background-color:rgba(220, 240, 220, 0.5); margin-bottom: 20px",
+
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field.widget.__class__ != forms.CheckboxSelectMultiple:
+                field.widget.attrs.update(self.Meta.attrs)
+
+
+class MessageForm(StyleFormMixin, forms.ModelForm):
     text = forms.CharField(widget=forms.TextInput(attrs={
             "placeholder": "  Enter your message..."
         }), label="")
@@ -12,9 +26,10 @@ class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
         fields = ["text"]
+        attrs = StyleFormMixin.Meta.attrs
 
 
-class WorkerCreateForm(UserCreationForm):
+class WorkerCreateForm(StyleFormMixin, UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = Worker
         fields = UserCreationForm.Meta.fields + (
@@ -24,9 +39,10 @@ class WorkerCreateForm(UserCreationForm):
             "email",
             "position",
         )
+        attrs = StyleFormMixin.Meta.attrs
 
 
-class WorkerUpdateForm(forms.ModelForm):
+class WorkerUpdateForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Worker
         fields = (
@@ -35,18 +51,21 @@ class WorkerUpdateForm(forms.ModelForm):
             "email",
             "position",
         )
+        attrs = StyleFormMixin.Meta.attrs
 
 
-class TaskCreateForm(forms.ModelForm):
+class TaskCreateForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Task
         fields = "__all__"
         widgets = {
-            "assignees": forms.CheckboxSelectMultiple()
+            "assignees": forms.CheckboxSelectMultiple(),
         }
 
+        attrs = StyleFormMixin.Meta.attrs
 
-class TaskUpdateForm(forms.ModelForm):
+
+class TaskUpdateForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Task
         fields = "__all__"
@@ -54,9 +73,10 @@ class TaskUpdateForm(forms.ModelForm):
             "assignees": forms.CheckboxSelectMultiple(),
             "tags": forms.CheckboxSelectMultiple()
         }
+        attrs = StyleFormMixin.Meta.attrs
 
 
-class TeamCreateForm(forms.ModelForm):
+class TeamCreateForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Team
         fields = "__all__"
@@ -64,23 +84,26 @@ class TeamCreateForm(forms.ModelForm):
             "members": forms.CheckboxSelectMultiple(),
             "tasks": forms.CheckboxSelectMultiple(),
         }
+        attrs = StyleFormMixin.Meta.attrs
 
 
-class TeamTaskAddForm(forms.ModelForm):
+class TeamTaskAddForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Team
         fields = ["task"]
         widgets = {"task": forms.CheckboxSelectMultiple()}
+        attrs = StyleFormMixin.Meta.attrs
 
 
-class TeamMemberAddForm(forms.ModelForm):
+class TeamMemberAddForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Team
         fields = ["member"]
         widgets = {"member": forms.CheckboxSelectMultiple()}
+        attrs = StyleFormMixin.Meta.attrs
 
 
-class TagCreateForm(forms.ModelForm):
+class TagCreateForm(StyleFormMixin, forms.ModelForm):
     tasks = forms.ModelMultipleChoiceField(
         queryset=Task.objects.prefetch_related("tags"),
         widget=forms.CheckboxSelectMultiple,
@@ -90,6 +113,4 @@ class TagCreateForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = ["name"]
-
-
-
+        attrs = StyleFormMixin.Meta.attrs
