@@ -1,0 +1,10 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    {{ form.tasks.as_p }}
+    <input type="submit" value="Submit" class="btn btn-success">
+  </form>
+{% endblock %}

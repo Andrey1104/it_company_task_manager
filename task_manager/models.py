@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 
 from it_company_task_manager import settings
 
@@ -126,6 +127,9 @@ class Team(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    def get_absolute_url(self) -> str:
+        return reverse("task_manager:team_detail", args=[str(self.id)])
 
 
 class Project(models.Model):

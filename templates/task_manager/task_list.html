@@ -5,10 +5,12 @@
       <td>Name (Type)</td>
       <td></td>
       <td>Description</td>
+      <td>Tags</td>
       <td>Priority</td>
       <td>Deadline</td>
       <td>Status</td>
       <td>Assignees</td>
+      <td>Teams</td>
     </tr>
     {% if task_list %}
       {% for task in task_list %}
@@ -17,6 +19,7 @@
           <td><a href="{% url 'task_manager:task_detail' task.id %}"
                  class="btn btn-secondary btn-sm">Detail</a></td>
           <td>{{ task.description }}</td>
+          <td>{{ task.tags }}</td>
           <td>
             {% if task.priority == "URGENT" %}
               <span class="text-primary">{{ task.priority }}</span>
@@ -42,6 +45,12 @@
             {% for assigner in task.assignees.all %}
               <span>{{ assigner }}</span><br>
             {% endfor %}
+          </td>
+          <td>
+            {% for team in task.teams.all %}
+            	{{ team }}<br>
+            {% endfor %}
+            
           </td>
         </tr>
       {% endfor %}

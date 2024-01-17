@@ -6,7 +6,7 @@
       {{ object|yesno:"Updete, Create" }} team:
     </h2>
     <div>
-      <form action="" method="post" class="w-50 h-50">
+      <form action="" method="post" class="w-50 h-50 border">
         {% csrf_token %}
         {{ form|crispy }}
         <input type="submit" value="Submit" class="btn btn-success mt-5">

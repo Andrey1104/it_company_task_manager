@@ -24,13 +24,13 @@
         <td class="text-white">
           {% for task in team.task.prefetch_related %}
             <a href="{% url 'task_manager:task_detail' task.pk %}">{{ task }}</a>
-            <a href="{% url 'task_manager:team_task_delete' team.pk task.pk %}" class="m-2">❌</a><br>
+            <a href="{% url 'task_manager:team_task_delete' team.pk task.id %}" class="m-2">❌</a><br>
           {% endfor %}
         </td>
         <td class="text-white">
           {% for member in team.member.all %}
             <a href="{% url 'task_manager:worker_detail' member.pk %}">{{ member }}</a>
-            <a href="{% url 'task_manager:team_member_delete' team.pk member.pk %}" class="m-2">❌</a><br>
+            <a href="{% url 'task_manager:team_member_delete' team.pk member.id %}" class="m-2">❌</a><br>
           {% endfor %}
 
         </td>
