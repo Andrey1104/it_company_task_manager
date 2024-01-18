@@ -13,7 +13,7 @@ from task_manager.forms import (
     WorkerUpdateForm,
     TaskCreateForm,
     TaskUpdateForm, TeamCreateForm, TeamTaskAddForm, TeamMemberAddForm, TagCreateForm,
-    ProjectSearchForm, TagSearchForm, TeamSearchForm, TaskSearchForm, WorkerSearchForm, ProjectForm,
+    ProjectSearchForm, TagSearchForm, TeamSearchForm, TaskSearchForm, WorkerSearchForm, ProjectForm, WorkerTaskAddForm,
 
 )
 from task_manager.models import (
@@ -42,6 +42,23 @@ def index(request: HttpRequest) -> HttpResponse:
         "task_types": task_types,
     }
     return render(request, "layouts/index.html", context)
+
+
+class ModelDeleteMixin:
+    @staticmethod
+    def remove_object(model_id, object_id, attribute, main_model, object_model):
+        model = get_object_or_404(main_model, pk=model_id)
+        obj = get_object_or_404(object_model, pk=object_id)
+
+        if obj in getattr(model, attribute).all():
+            getattr(model, attribute).remove(obj)
+            model.save()
+
+    @staticmethod
+    def get_success_url(model_id=None):
+        if model_id:
+            return reverse_lazy("task_manager:team_detail", args=[model_id])
+        return reverse_lazy("task_manager:project_list")
 
 
 class SearchMixin:
@@ -99,6 +116,13 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
     template_name = "task_manager/worker/worker_detail.html"
 
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict:
+        context = super(WorkerDetailView, self).get_context_data(**kwargs)
+        worker = self.get_object()
+        tasks = Task.objects.filter(assignees=worker)
+        context["tasks"] = tasks
+        return context
+
 
 class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
     model = Worker
@@ -116,6 +140,29 @@ class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
 class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Worker
     template_name = "task_manager/worker/worker_delete.html"
+    success_url = reverse_lazy("task_manager:worker_list")
+
+
+class WorkerTaskDeleteView(LoginRequiredMixin, ModelDeleteMixin, generic.UpdateView):
+    def get(self, request, *args, **kwargs):
+        worker_id = kwargs.get("worker_pk")
+        task_id = kwargs.get("task_pk")
+        self.remove_object(task_id, worker_id, "assignees", Task, Worker)
+        return HttpResponseRedirect(reverse_lazy("task_manager:worker_detail", args=[worker_id]))
+
+
+class WorkerTaskAddView(LoginRequiredMixin, generic.UpdateView):
+    model = Worker
+    form_class = WorkerTaskAddForm
+    template_name = "task_manager/worker/worker_form.html"
+
+    def form_valid(self, form):
+        worker = form.save(commit=False)
+        tasks = form.cleaned_data['tasks']
+        for task in tasks:
+            task.assignees.add(worker)
+            task.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class TaskListView(LoginRequiredMixin, SearchMixin, generic.ListView):
@@ -159,9 +206,10 @@ class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "task_manager/task/task_form.html"
 
 
-class TaskDeleteView(LoginRequiredMixin, generic.DetailView):
+class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
     template_name = "task_manager/task/task_delete.html"
+    success_url = reverse_lazy("task_manager:task_list")
 
 
 class TaskStatusUpdateView(LoginRequiredMixin, generic.UpdateView):
@@ -205,15 +253,10 @@ class MessageCreateView(LoginRequiredMixin, generic.CreateView):
 
 class TeamListView(LoginRequiredMixin, SearchMixin, generic.ListView):
     model = Team
-    queryset = Team.objects.all().prefetch_related("member", "task")
+    queryset = Team.objects.all().prefetch_related("member", "task", "projects")
     template_name = "task_manager/team/team_list.html"
     search_form_class = TeamSearchForm
     search_fields = ["name"]
-
-
-class TeamDetailView(LoginRequiredMixin, generic.DetailView):
-    model = Team
-    template_name = "task_manager/team/team_detail.html"
 
 
 class TeamCreateView(LoginRequiredMixin, generic.CreateView):
@@ -231,38 +274,22 @@ class TeamUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class TeamDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Team
-    template_name = "task_manager/team/team_form.html"
+    success_url = reverse_lazy("task_manager:team_list")
+    template_name = "task_manager/team/team_delete.html"
 
 
-class ModelActionMixin:
-    @staticmethod
-    def remove_object(model_id, object_id, attribute, main_model, object_model):
-        model = get_object_or_404(main_model, pk=model_id)
-        obj = get_object_or_404(object_model, pk=object_id)
-
-        if obj in getattr(model, attribute).all():
-            getattr(model, attribute).remove(obj)
-            model.save()
-
-    @staticmethod
-    def get_success_url(model_id=None):
-        if model_id:
-            return reverse_lazy("task_manager:team_detail", args=[model_id])
-        return reverse_lazy("task_manager:project_list")
-
-
-class TeamTaskDeleteView(LoginRequiredMixin, ModelActionMixin, generic.UpdateView):
+class TeamTaskDeleteView(LoginRequiredMixin, ModelDeleteMixin, generic.UpdateView):
     def get(self, request, *args, **kwargs):
         team_id = kwargs.get("team_pk")
         self.remove_object(team_id, kwargs.get("task_pk"), "task", Team, Task)
-        return HttpResponseRedirect(self.get_success_url(team_id))
+        return HttpResponseRedirect(reverse_lazy("task_manager:team_list"))
 
 
-class TeamMemberDeleteView(LoginRequiredMixin, ModelActionMixin, generic.UpdateView):
+class TeamMemberDeleteView(LoginRequiredMixin, ModelDeleteMixin, generic.UpdateView):
     def get(self, request, *args, **kwargs):
         team_id = kwargs.get("team_pk")
         self.remove_object(team_id, kwargs.get("member_pk"), "member", Team, Worker)
-        return HttpResponseRedirect(self.get_success_url(team_id))
+        return HttpResponseRedirect(reverse_lazy("task_manager:team_list"))
 
 
 class TeamTaskAddView(LoginRequiredMixin, generic.UpdateView):
@@ -322,6 +349,7 @@ class TagUpdateView(TagFormMixin, generic.UpdateView):
 class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Tag
     template_name = "task_manager/tag/tag_delete.html"
+    success_url = reverse_lazy("task_manager:tag_list")
 
 
 class ProjectListView(LoginRequiredMixin, SearchMixin, generic.ListView):
@@ -349,16 +377,17 @@ class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
 class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Project
     template_name = "task_manager/project/project_delete.html"
+    success_url = reverse_lazy("task_manager:project_list")
 
 
-class ProjectTaskDeleteView(LoginRequiredMixin, ModelActionMixin, generic.UpdateView):
+class ProjectTaskDeleteView(LoginRequiredMixin, ModelDeleteMixin, generic.UpdateView):
     def get(self, request, *args, **kwargs):
         project_id = kwargs.get("project_pk")
         self.remove_object(project_id, kwargs.get("task_pk"), "task", Project, Task)
         return HttpResponseRedirect(self.get_success_url())
 
 
-class ProjectTeamDeleteView(LoginRequiredMixin, ModelActionMixin, generic.UpdateView):
+class ProjectTeamDeleteView(LoginRequiredMixin, ModelDeleteMixin, generic.UpdateView):
     def get(self, request, *args, **kwargs):
         project = get_object_or_404(Project, pk=kwargs.get("project_pk"))
         project.team = None

@@ -25,24 +25,28 @@
           <td>{{ project.description }}</td>
           <td>
             {% if project.deadline %}
-            	{{ project.deadline }}
+              {{ project.deadline }}
             {% endif %}
           </td>
           <td>
             {% for task in project.task.all %}
-              {{ task }}<a href="{% url 'task_manager:project_task_delete' project.pk task.pk %}" class="m-2">❌</a><br>
+              {{ task }}<a href="{% url 'task_manager:project_task_delete' project.pk task.pk %}" class="m-2"
+                           title="remove a task"
+                           data-bs-toggle="tooltip">❌</a><br>
             {% endfor %}
           </td>
           <td>
             {% if project.team %}
-              <a href="{% url 'task_manager:team_detail' project.team.pk %}">{{ project.team }}</a>
-              <a href="{% url 'task_manager:project_team_delete' project.pk project.team.pk %}" class="m-2">❌</a><br>
+              <a href="{% url 'task_manager:team_list' %}">{{ project.team }}</a>
+              <a href="{% url 'task_manager:project_team_delete' project.pk project.team.pk %}" class="m-2"
+                 title="remove a team"
+                 data-bs-toggle="tooltip">❌</a><br>
             {% endif %}
           </td>
           <td>
             <a href="{% url 'task_manager:project_update' project.id %}">✏️</a>
           </td>
-        <td><a href="{% url 'task_manager:project_delete' project.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+          <td><a href="{% url 'task_manager:project_delete' project.id %}" class="btn btn-danger btn-sm">Delete</a></td>
         </tr>
       {% endfor %}
     </table>

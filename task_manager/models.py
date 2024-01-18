@@ -40,6 +40,9 @@ class Worker(AbstractUser):
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
+    def get_absolute_url(self) -> str:
+        return reverse("task_manager:worker_detail", args=[str(self.id)])
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -128,8 +131,9 @@ class Team(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    def get_absolute_url(self) -> str:
-        return reverse("task_manager:team_detail", args=[str(self.id)])
+    @staticmethod
+    def get_absolute_url() -> str:
+        return reverse("task_manager:team_list")
 
 
 class Project(models.Model):
@@ -155,5 +159,6 @@ class Project(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    def get_absolute_url(self) -> str:
+    @staticmethod
+    def get_absolute_url() -> str:
         return reverse("task_manager:project_list")

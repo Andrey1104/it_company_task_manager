@@ -54,6 +54,19 @@ class WorkerUpdateForm(StyleFormMixin, forms.ModelForm):
         attrs = StyleFormMixin.Meta.attrs
 
 
+class WorkerTaskAddForm(StyleFormMixin, forms.ModelForm):
+    tasks = forms.ModelMultipleChoiceField(
+        queryset=Task.objects.prefetch_related("assignees"),
+        required=False,
+    )
+
+    class Meta:
+        model = Worker
+        fields = ["tasks"]
+        widgets = {"tasks": forms.CheckboxSelectMultiple()}
+        attrs = StyleFormMixin.Meta.attrs
+
+
 class TaskCreateForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Task

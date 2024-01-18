@@ -25,7 +25,7 @@
         action="{% url 'task_manager:message_create' pk_author=user.id pk_task=task.pk %}"
         method="post" class="opacity-7">
       {% csrf_token %}
-      <div class="bg-white row w-70">
+      <div class="row w-70">
         {{ message_form|crispy }}
       </div>
       <input type="submit" value="Send" class="btn btn-success btn-lg mt-3">
