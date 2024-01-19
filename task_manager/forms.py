@@ -1,27 +1,18 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
+from task_manager.mixins import StyleFormMixin, SearchFormMixin
 from task_manager.models import Message, Worker, Task, Team, Tag, Project
 
 
-class StyleFormMixin(forms.ModelForm):
-    class Meta:
-        attrs = {
-            "style": "background-color:rgba(220, 240, 220, 0.5); margin-bottom: 20px",
-
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            if field.widget.__class__ != forms.CheckboxSelectMultiple:
-                field.widget.attrs.update(self.Meta.attrs)
-
-
 class MessageForm(StyleFormMixin, forms.ModelForm):
-    text = forms.CharField(widget=forms.TextInput(attrs={
-            "placeholder": "  Enter your message..."
-        }), label="")
+    text = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "  Input your message and press <<< Enter >>>"
+            }),
+        label=""
+    )
 
     class Meta:
         model = Message
@@ -139,23 +130,6 @@ class ProjectForm(StyleFormMixin, forms.ModelForm):
         attrs = StyleFormMixin.Meta.attrs
 
 
-class SearchFormMixin(forms.ModelForm):
-    name = forms.CharField(
-        max_length=255,
-        widget=forms.TextInput(attrs={"placeholder": "Enter name..."}),
-        required=False,
-        label=""
-    )
-
-    class Meta:
-        abstract = True
-
-    def __init__(self, *args, **kwargs):
-        super(SearchFormMixin, self).__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            field.widget.attrs.update({"class": "common-form-field-style"})
-
-
 class TaskSearchForm(SearchFormMixin, StyleFormMixin):
     class Meta:
         model = Task
@@ -195,4 +169,11 @@ class WorkerSearchForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Worker
         fields = ["username"]
+        attrs = StyleFormMixin.Meta.attrs
+
+
+class ChatCreateForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['task']
         attrs = StyleFormMixin.Meta.attrs

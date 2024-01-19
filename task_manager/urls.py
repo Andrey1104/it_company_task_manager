@@ -1,26 +1,11 @@
 from django.urls import path
 
-from task_manager.views import (
-    WorkerListView,
-    TaskListView,
-    TaskDetailView,
-    MessageCreateView,
-    WorkerDetailView,
-    WorkerDeleteView,
-    WorkerUpdateView,
-    WorkerCreateView,
-    TaskCreateView,
-    TaskDeleteView,
-    TaskUpdateView,
-    TaskStatusUpdateView,
-    TeamListView,
-    TeamCreateView,
-    TeamUpdateView,
-    TeamTaskAddView, TeamMemberAddView, TagListView,
-    TagCreateView, TagDeleteView, TagUpdateView, TeamMemberDeleteView, TeamTaskDeleteView, ProjectListView,
-    ProjectCreateView, ProjectDeleteView, ProjectUpdateView, ProjectTeamDeleteView,
-    ProjectTaskDeleteView, TeamDeleteView, WorkerTaskDeleteView, WorkerTaskAddView
-)
+from task_manager.views.index_message_views import *
+from task_manager.views.project_views import *
+from task_manager.views.tag_views import *
+from task_manager.views.task_views import *
+from task_manager.views.team_views import *
+from task_manager.views.worker_views import *
 
 app_name = 'task_manager'
 urlpatterns = [
@@ -41,6 +26,7 @@ urlpatterns = [
     path("tasks/<int:pk>/delete/", TaskDeleteView.as_view(), name="task_delete"),
     path("tasks/<int:pk>/update/", TaskUpdateView.as_view(), name="task_update"),
     path("tasks/<int:pk>/complete/", TaskStatusUpdateView.as_view(), name="task_status_update"),
+
     path("teams/", TeamListView.as_view(), name="team_list"),
     path("teams/create/", TeamCreateView.as_view(), name="team_create"),
     path("teams/<int:pk>/update/", TeamUpdateView.as_view(), name="team_update"),
@@ -63,6 +49,11 @@ urlpatterns = [
         MessageCreateView.as_view(),
         name="message_create"
     ),
+    path(
+        "message/<int:message_pk>/<int:task_pk>/message_delete/",
+        MessageDeleteView.as_view(),
+        name="message_delete"
+    ),
     path("tags/", TagListView.as_view(), name="tag_list"),
     path("tags/create/", TagCreateView.as_view(), name="tag_create"),
     path("tags/<int:pk>/delete/", TagDeleteView.as_view(), name="tag_delete"),
@@ -82,4 +73,5 @@ urlpatterns = [
         ProjectTaskDeleteView.as_view(),
         name="project_task_delete"
     ),
+    path("chat/", ChatCreateView.as_view(), name="chat_create"),
 ]
