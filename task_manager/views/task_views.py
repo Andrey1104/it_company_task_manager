@@ -4,7 +4,12 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from task_manager.forms import TaskSearchForm, MessageForm, TaskCreateForm, TaskUpdateForm
+from task_manager.forms import (
+    TaskSearchForm,
+    MessageForm,
+    TaskCreateForm,
+    TaskUpdateForm,
+)
 from task_manager.models import Task
 from task_manager.mixins import SearchMixin
 
@@ -15,10 +20,8 @@ class TaskListView(LoginRequiredMixin, SearchMixin, generic.ListView):
     template_name = "task_manager/task/task_list.html"
     search_form_class = TaskSearchForm
     search_fields = ["name"]
-    queryset = (
-        Task.objects
-        .select_related("task_type")
-        .prefetch_related("assignees", "teams", "tags")
+    queryset = Task.objects.select_related("task_type").prefetch_related(
+        "assignees", "teams", "tags"
     )
 
 
@@ -67,8 +70,10 @@ class TaskStatusUpdateView(LoginRequiredMixin, generic.UpdateView):
         else:
             task.is_completed = False
         task.save()
-        if request.GET.get('next'):
+        if request.GET.get("next"):
             cache.clear()
-            return HttpResponseRedirect(request.GET['next'])
+            return HttpResponseRedirect(request.GET["next"])
         else:
-            return HttpResponseRedirect(reverse_lazy("task_manager:task_detail", args=[task_id]))
+            return HttpResponseRedirect(
+                reverse_lazy("task_manager:task_detail", args=[task_id])
+            )

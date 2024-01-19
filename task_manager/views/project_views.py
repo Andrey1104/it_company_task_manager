@@ -37,14 +37,20 @@ class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("task_manager:project_list")
 
 
-class ProjectTaskDeleteView(LoginRequiredMixin, ModelDeleteMixin, generic.UpdateView):
+class ProjectTaskDeleteView(
+    LoginRequiredMixin, ModelDeleteMixin, generic.UpdateView
+):
     def get(self, request, *args, **kwargs):
         project_id = kwargs.get("project_pk")
-        self.remove_object(project_id, kwargs.get("task_pk"), "task", Project, Task)
+        self.remove_object(
+            project_id, kwargs.get("task_pk"), "task", Project, Task
+        )
         return HttpResponseRedirect(self.get_success_url())
 
 
-class ProjectTeamDeleteView(LoginRequiredMixin, ModelDeleteMixin, generic.UpdateView):
+class ProjectTeamDeleteView(
+    LoginRequiredMixin, ModelDeleteMixin, generic.UpdateView
+):
     def get(self, request, *args, **kwargs):
         project = get_object_or_404(Project, pk=kwargs.get("project_pk"))
         project.team = None

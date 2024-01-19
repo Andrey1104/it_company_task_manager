@@ -28,6 +28,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="team",
             name="task",
-            field=models.ManyToManyField(related_name="teams", to="task_manager.task"),
+            field=models.ManyToManyField(
+                related_name="teams", to="task_manager.task"
+            ),
         ),
     ]

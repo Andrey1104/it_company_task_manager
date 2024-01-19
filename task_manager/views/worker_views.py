@@ -4,7 +4,12 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from task_manager.forms import WorkerSearchForm, WorkerCreateForm, WorkerUpdateForm, WorkerTaskAddForm
+from task_manager.forms import (
+    WorkerSearchForm,
+    WorkerCreateForm,
+    WorkerUpdateForm,
+    WorkerTaskAddForm,
+)
 from task_manager.models import Worker, Task
 from task_manager.mixins import ModelDeleteMixin
 
@@ -62,12 +67,16 @@ class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("task_manager:worker_list")
 
 
-class WorkerTaskDeleteView(LoginRequiredMixin, ModelDeleteMixin, generic.UpdateView):
+class WorkerTaskDeleteView(
+    LoginRequiredMixin, ModelDeleteMixin, generic.UpdateView
+):
     def get(self, request, *args, **kwargs):
         worker_id = kwargs.get("worker_pk")
         task_id = kwargs.get("task_pk")
         self.remove_object(task_id, worker_id, "assignees", Task, Worker)
-        return HttpResponseRedirect(reverse_lazy("task_manager:worker_detail", args=[worker_id]))
+        return HttpResponseRedirect(
+            reverse_lazy("task_manager:worker_detail", args=[worker_id])
+        )
 
 
 class WorkerTaskAddView(LoginRequiredMixin, generic.UpdateView):
@@ -77,7 +86,7 @@ class WorkerTaskAddView(LoginRequiredMixin, generic.UpdateView):
 
     def form_valid(self, form):
         worker = form.save(commit=False)
-        tasks = form.cleaned_data['tasks']
+        tasks = form.cleaned_data["tasks"]
         for task in tasks:
             task.assignees.add(worker)
             task.save()

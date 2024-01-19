@@ -2,28 +2,39 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from task_manager.models import *
+from task_manager.models import Worker, Task, Team, Project, Position
 
 
 @admin.register(Worker)
 class WorkerAdmin(UserAdmin):
     list_editable = ["first_name", "last_name", "position"]
-    list_display = UserAdmin.list_display + ("position", )
-    fieldsets = UserAdmin.fieldsets + ((_("Additional info"), {"fields": ("position", )}), )
+    list_display = UserAdmin.list_display + ("position",)
+    fieldsets = UserAdmin.fieldsets + (
+        (_("Additional info"), {"fields": ("position",)}),
+    )
     add_fieldsets = UserAdmin.add_fieldsets + (
-        (_
-         ("Additional info"),
-         {"fields": (
-             "first_name",
-             "last_name",
-             "position",
-         )}),
+        (
+            _("Additional info"),
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "position",
+                )
+            },
+        ),
     )
 
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ["name", "description", "deadline", "priority", "is_completed"]
+    list_display = [
+        "name",
+        "description",
+        "deadline",
+        "priority",
+        "is_completed",
+    ]
     list_filter = ["deadline", "priority", "is_completed"]
     list_editable = ["description", "deadline", "priority", "is_completed"]
     search_fields = ["name"]

@@ -1,31 +1,38 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from task_manager.models import Task, Tag, TaskType, Position, Worker, Message, Team, Project
+from task_manager.models import (
+    Task,
+    Tag,
+    TaskType,
+    Position,
+    Worker,
+    Message,
+    Team,
+    Project,
+)
 from task_manager.forms import (
     MessageForm,
     WorkerCreateForm,
     TaskCreateForm,
     TeamCreateForm,
     TaskSearchForm,
-    ChatCreateForm
+    ChatCreateForm,
 )
 
 
 class TaskManagerFormTests(TestCase):
-
     def setUp(self):
         self.task_type = TaskType.objects.create(name="task")
         self.position = Position.objects.create(name="position")
         self.user = get_user_model().objects.create_user(
-            username="testuser1",
-            password="testpassword123"
+            username="testuser1", password="testpassword123"
         )
         self.worker = Worker.objects.create(
             username="worker",
             password="password123",
             first_name="John",
             last_name="Doe",
-            position=self.position
+            position=self.position,
         )
         self.tag = Tag.objects.create(name="Sample Tag")
         self.task = Task.objects.create(
@@ -49,7 +56,7 @@ class TaskManagerFormTests(TestCase):
             name="Sample Project",
             description="Project description",
             deadline="2024-11-11",
-            team=self.team
+            team=self.team,
         )
 
     def test_message_form(self):

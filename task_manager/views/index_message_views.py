@@ -53,7 +53,9 @@ class MessageDeleteView(LoginRequiredMixin, generic.UpdateView):
         message_pk = self.kwargs.get("message_pk")
         message = get_object_or_404(Message, pk=message_pk)
         message.delete()
-        return HttpResponseRedirect(reverse_lazy("task_manager:task_detail", args=[task_pk]))
+        return HttpResponseRedirect(
+            reverse_lazy("task_manager:task_detail", args=[task_pk])
+        )
 
 
 class ChatCreateView(LoginRequiredMixin, generic.CreateView):
@@ -62,6 +64,6 @@ class ChatCreateView(LoginRequiredMixin, generic.CreateView):
 
     def post(self, request, *args, **kwargs):
         task_id = request.POST.get("task")
-        return HttpResponseRedirect(reverse_lazy(
-            "task_manager:task_detail", args=[task_id]
-        ))
+        return HttpResponseRedirect(
+            reverse_lazy("task_manager:task_detail", args=[task_id])
+        )

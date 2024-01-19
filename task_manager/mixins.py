@@ -5,7 +5,9 @@ from django.urls import reverse_lazy
 
 class ModelDeleteMixin:
     @staticmethod
-    def remove_object(model_id, object_id, attribute, main_model, object_model):
+    def remove_object(
+        model_id, object_id, attribute, main_model, object_model
+    ):
         model = get_object_or_404(main_model, pk=model_id)
         obj = get_object_or_404(object_model, pk=object_id)
 
@@ -39,14 +41,16 @@ class SearchMixin:
         search_query = self.get_search_query()
         if search_query:
             for field in self.search_fields:
-                queryset = queryset.filter(**{f"{field}__icontains": search_query})
+                queryset = queryset.filter(
+                    **{f"{field}__icontains": search_query}
+                )
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         search_form = self.search_form_class(
             initial={"name": self.get_search_query()},
-            **self.get_search_form_kwargs()
+            **self.get_search_form_kwargs(),
         )
         context["search_form"] = search_form
         return context
@@ -57,7 +61,7 @@ class SearchFormMixin(forms.ModelForm):
         max_length=255,
         widget=forms.TextInput(attrs={"placeholder": "Enter name..."}),
         required=False,
-        label=""
+        label="",
     )
 
     class Meta:
@@ -73,8 +77,7 @@ class StyleFormMixin(forms.ModelForm):
     class Meta:
         attrs = {
             "style": "background-color:rgba(220, 240, 220, 0.5);"
-                     "margin-bottom: 20px",
-
+            "margin-bottom: 20px",
         }
 
     def __init__(self, *args, **kwargs):

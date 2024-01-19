@@ -10,8 +10,9 @@ class MessageForm(StyleFormMixin, forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "  Input your message and press <<< Enter >>>"
-            }),
-        label=""
+            }
+        ),
+        label="",
     )
 
     class Meta:
@@ -75,7 +76,7 @@ class TaskUpdateForm(StyleFormMixin, forms.ModelForm):
         fields = "__all__"
         widgets = {
             "assignees": forms.CheckboxSelectMultiple(),
-            "tags": forms.CheckboxSelectMultiple()
+            "tags": forms.CheckboxSelectMultiple(),
         }
         attrs = StyleFormMixin.Meta.attrs
 
@@ -163,7 +164,7 @@ class WorkerSearchForm(StyleFormMixin, forms.ModelForm):
         max_length=255,
         widget=forms.TextInput(attrs={"placeholder": "Enter username..."}),
         required=False,
-        label=""
+        label="",
     )
 
     class Meta:
@@ -175,5 +176,5 @@ class WorkerSearchForm(StyleFormMixin, forms.ModelForm):
 class ChatCreateForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Message
-        fields = ['task']
+        fields = ["task"]
         attrs = StyleFormMixin.Meta.attrs

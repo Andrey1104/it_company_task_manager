@@ -71,7 +71,9 @@ class Migration(migrations.Migration):
                 (
                     "task",
                     models.ManyToManyField(
-                        blank=True, related_name="projects", to="task_manager.task"
+                        blank=True,
+                        related_name="projects",
+                        to="task_manager.task",
                     ),
                 ),
                 (

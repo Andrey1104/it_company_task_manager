@@ -2,7 +2,16 @@ from django.test import TestCase
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from task_manager.models import TaskType, Position, Worker, Tag, Task, Message, Team, Project
+from task_manager.models import (
+    TaskType,
+    Position,
+    Worker,
+    Tag,
+    Task,
+    Message,
+    Team,
+    Project,
+)
 
 
 class TaskManagerModelTests(TestCase):
@@ -10,30 +19,29 @@ class TaskManagerModelTests(TestCase):
         self.task_type = TaskType.objects.create(name="Sample Task Type")
         self.position = Position.objects.create(name="Sample Position")
         self.user = get_user_model().objects.create_user(
-            username='testuser',
-            password='testpassword123'
+            username="testuser", password="testpassword123"
         )
         self.worker = Worker.objects.create(
-            username='worker',
-            password='password123',
-            first_name='John',
-            last_name='Doe',
-            position=self.position
+            username="worker",
+            password="password123",
+            first_name="John",
+            last_name="Doe",
+            position=self.position,
         )
         self.tag = Tag.objects.create(name="Sample Tag")
         self.task = Task.objects.create(
-            name='Sample Task',
-            description='Task description',
+            name="Sample Task",
+            description="Task description",
             deadline=timezone.now(),
             is_completed=False,
-            priority='HIGH',
+            priority="HIGH",
             task_type=self.task_type,
         )
         self.task.assignees.add(self.user)
         self.task.tags.add(self.tag)
         self.message = Message.objects.create(
             author=self.user,
-            text='Sample message',
+            text="Sample message",
             task=self.task,
         )
         self.team = Team.objects.create(name="Sample Team")
@@ -42,7 +50,7 @@ class TaskManagerModelTests(TestCase):
             name="Sample Project",
             description="Project description",
             deadline=timezone.now(),
-            team=self.team
+            team=self.team,
         )
 
     def test_task_type_str(self):
@@ -61,7 +69,9 @@ class TaskManagerModelTests(TestCase):
         self.assertEqual(str(self.task), "Sample Task")
 
     def test_message_str(self):
-        expected_str = f"{self.user}: \n Sample message \n {self.message.created_at}"
+        expected_str = (
+            f"{self.user}: \n Sample message \n {self.message.created_at}"
+        )
         self.assertEqual(str(self.message), expected_str)
 
     def test_team_str(self):
@@ -71,7 +81,9 @@ class TaskManagerModelTests(TestCase):
         self.assertEqual(str(self.project), "Sample Project")
 
     def test_worker_absolute_url(self):
-        expected_url = reverse("task_manager:worker_detail", args=[str(self.worker.id)])
+        expected_url = reverse(
+            "task_manager:worker_detail", args=[str(self.worker.id)]
+        )
         self.assertEqual(self.worker.get_absolute_url(), expected_url)
 
     def test_team_absolute_url(self):

@@ -31,7 +31,7 @@ class Worker(AbstractUser):
         on_delete=models.CASCADE,
         related_name="workers",
         blank=True,
-        null=True
+        null=True,
     )
 
     class Meta:
@@ -67,18 +67,13 @@ class Task(models.Model):
     deadline = models.DateField()
     is_completed = models.BooleanField(default=False)
     priority = models.CharField(
-        max_length=10,
-        choices=PRIORITY_CHOICES,
-        default="HIGH"
+        max_length=10, choices=PRIORITY_CHOICES, default="HIGH"
     )
     task_type = models.ForeignKey(
-        TaskType,
-        on_delete=models.CASCADE,
-        related_name="tasks"
+        TaskType, on_delete=models.CASCADE, related_name="tasks"
     )
     assignees = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
-        related_name="assigned_tasks"
+        settings.AUTH_USER_MODEL, related_name="assigned_tasks"
     )
     tags = models.ManyToManyField(
         Tag,
@@ -97,13 +92,11 @@ class Message(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="messages"
+        related_name="messages",
     )
     text = models.TextField()
     task = models.ForeignKey(
-        Task,
-        on_delete=models.CASCADE,
-        related_name="messages"
+        Task, on_delete=models.CASCADE, related_name="messages"
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -145,13 +138,9 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         related_name="projects",
         blank=True,
-        null=True
+        null=True,
     )
-    task = models.ManyToManyField(
-        Task,
-        related_name="projects",
-        blank=True
-    )
+    task = models.ManyToManyField(Task, related_name="projects", blank=True)
 
     class Meta:
         ordering = ("name",)
