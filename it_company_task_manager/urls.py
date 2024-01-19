@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from task_manager.views import index
+from task_manager.views.index_message_views import index
 
 urlpatterns = [
     path("admin/", admin.site.urls),
