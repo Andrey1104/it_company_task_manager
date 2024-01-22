@@ -2,16 +2,16 @@ from django.test import TestCase
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from task_manager.models import (
-    TaskType,
+
+from chat.models import Message
+from executor.models import (
     Position,
     Worker,
-    Tag,
     Task,
-    Message,
     Team,
     Project,
 )
+from task.models import TaskType, Tag
 
 
 class TaskManagerModelTests(TestCase):
@@ -82,14 +82,14 @@ class TaskManagerModelTests(TestCase):
 
     def test_worker_absolute_url(self):
         expected_url = reverse(
-            "task_manager:worker_detail", args=[str(self.worker.id)]
+            "executor:worker_detail", args=[str(self.worker.id)]
         )
         self.assertEqual(self.worker.get_absolute_url(), expected_url)
 
     def test_team_absolute_url(self):
-        expected_url = reverse("task_manager:team_list")
+        expected_url = reverse("executor:team_list")
         self.assertEqual(self.team.get_absolute_url(), expected_url)
 
     def test_project_absolute_url(self):
-        expected_url = reverse("task_manager:project_list")
+        expected_url = reverse("executor:project_list")
         self.assertEqual(self.project.get_absolute_url(), expected_url)

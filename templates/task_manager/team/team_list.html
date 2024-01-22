@@ -20,7 +20,7 @@
       {% for team in team_list %}
         <tr>
           <td>{{ team.pk }}</td>
-          <td><a href="{% url 'task_manager:team_delete' team.id %}" class="btn btn-danger btn-sm"
+          <td><a href="{% url 'executor:team_delete' team.id %}" class="btn btn-danger btn-sm"
                  title="Delete Team"
                  data-bs-toggle="tooltip">🗑️</a></td>
           <td>
@@ -35,31 +35,31 @@
           <td>
             {% for task in team.task.all %}
               {% if task.is_completed == True %}
-                <a href="{% url 'task_manager:task_status_update' task.id %}?next=/task_manager/teams/"
+                <a href="{% url 'task:task_status_update' task.id %}?next=/executor/teams/"
                    title="Tap to restore task"
                    data-bs-toggle="tooltip">✅</a>
               {% else %}
-                <a href="{% url 'task_manager:task_status_update' task.id %}?next=/task_manager/teams/"
+                <a href="{% url 'task:task_status_update' task.id %}?next=/executor/teams/"
                    title="Tap to complete task"
                    data-bs-toggle="tooltip">🔄</a>
               {% endif %}
-              <a href="{% url 'task_manager:task_detail' task.pk %}">{{ task }}</a>
-              <a href="{% url 'task_manager:team_task_delete' team.pk task.id %}" class="m-2"
+              <a href="{% url 'task:task_detail' task.pk %}">{{ task }}</a>
+              <a href="{% url 'executor:team_task_delete' team.pk task.id %}" class="m-2"
                  title="remove a task"
                  data-bs-toggle="tooltip">❌</a><br>
             {% endfor %}
           </td>
-          <td><a href="{% url 'task_manager:team_task_add' team.id %}" class="btn btn-sm btn-success">Add task</a></td>
+          <td><a href="{% url 'executor:team_task_add' team.id %}" class="btn btn-sm btn-success">Add task</a></td>
           <td class="text-white">
 
             {% for member in team.member.all %}
-              <a href="{% url 'task_manager:worker_detail' member.pk %}">{{ member }}</a>
-              <a href="{% url 'task_manager:team_member_delete' team.pk member.id %}" class="m-2"
+              <a href="{% url 'executor:worker_detail' member.pk %}">{{ member }}</a>
+              <a href="{% url 'executor:team_member_delete' team.pk member.id %}" class="m-2"
                  title="remove a team member"
                  data-bs-toggle="tooltip">❌</a><br>
             {% endfor %}
           </td>
-          <td><a href="{% url 'task_manager:team_member_add' team.id %}" class="btn btn-sm btn-warning ">Add
+          <td><a href="{% url 'executor:team_member_add' team.id %}" class="btn btn-sm btn-warning ">Add
             member</a></td>
         </tr>
       {% endfor %}

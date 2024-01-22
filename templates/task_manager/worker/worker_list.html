@@ -19,11 +19,11 @@
         <td>{{ worker.first_name }} {{ worker.last_name }}</td>
         <td>{{ worker.position }}</td>
         <td>{{ worker.email }}</td>
-        <td><a href="{% url 'task_manager:worker_detail' worker.id %}" class="btn btn-sm btn-secondary">Detail</a></td>
-        <td><a href="{% url 'task_manager:worker_update' worker.id %}" class="btn btn-sm btn-info">Update</a></td>
+        <td><a href="{% url 'executor:worker_detail' worker.id %}" class="btn btn-sm btn-secondary">Detail</a></td>
+        <td><a href="{% url 'executor:worker_update' worker.id %}" class="btn btn-sm btn-info">Update</a></td>
         <td>
           {% if worker.id == user.id %}
-            <a href="{% url 'task_manager:worker_delete' worker.id %}" class="btn btn-sm btn-danger">Delete</a>
+            <a href="{% url 'executor:worker_delete' worker.id %}" class="btn btn-sm btn-danger">Delete</a>
           {% endif %}
         </td>
       </tr>

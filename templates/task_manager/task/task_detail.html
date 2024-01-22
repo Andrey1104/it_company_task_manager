@@ -9,14 +9,14 @@
             {{ task.name }}
             <br>
             {% if task.is_completed %}
-              <a href="{% url 'task_manager:task_status_update' task.id %}"
+              <a href="{% url 'task:task_status_update' task.id %}"
                  class="btn btn-sm btn-warning mt-3">Restore</a>
             {% else %}
-              <a href="{% url 'task_manager:task_status_update' task.id %}"
+              <a href="{% url 'task:task_status_update' task.id %}"
                  class="btn btn-sm btn-success mt-3">Complete</a>
             {% endif %}
-            <a href="{% url 'task_manager:task_update' task.id %}" class="btn btn-sm btn-info mt-3">Update</a>
-            <a href="{% url 'task_manager:task_delete' task.id %}" class="btn btn-sm btn-danger mt-3">Delete</a>
+            <a href="{% url 'task:task_update' task.id %}" class="btn btn-sm btn-info mt-3">Update</a>
+            <a href="{% url 'task:task_delete' task.id %}" class="btn btn-sm btn-danger mt-3">Delete</a>
           </h3>
         </div>
         <div style="margin-left: 50px" class="text-dark">
@@ -27,7 +27,7 @@
         <hr>
         <div class="container">
           <form
-              action="{% url 'task_manager:message_create' pk_author=user.id pk_task=task.pk %}"
+              action="{% url 'chat:message_create' pk_author=user.id pk_task=task.pk %}"
               method="post" class="opacity-7 row">
             {% csrf_token %}
             <div class="">
@@ -46,7 +46,7 @@
                 <div class="text-white text-right bg-gradient border-radius-xl">
                   <span class="opacity-5">You:</span><br>
                   <span class="text-dark right">{{ message.text }}<a
-                      href="{% url 'task_manager:message_delete' message.id task.id %}" style="margin-left: 10px">❌</a></span><br>
+                      href="{% url 'chat:message_delete' message.id task.id %}" style="margin-left: 10px">❌</a></span><br>
                   <span class="opacity-5">{{ message.created_at }}</span>
                 </div>
                 <hr>

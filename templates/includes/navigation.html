@@ -11,19 +11,19 @@
           <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
             <ul class="navbar-nav navbar-nav-hover ms-auto">
               <li class="nav-item my-auto ms-3 ms-lg-0">
-                <a href="{% url 'task_manager:project_create' %}"
+                <a href="{% url 'executor:project_create' %}"
                    class="btn btn-sm bg-gradient-success  mb-0 me-1 mt-2 mt-md-0">Create Project</a>
               </li>
               <li class="nav-item my-auto ms-3 ms-lg-0">
-                <a href="{% url 'task_manager:team_create' %}"
+                <a href="{% url 'executor:team_create' %}"
                    class="btn btn-sm bg-gradient-success  mb-0 me-1 mt-2 mt-md-0">Create Team</a>
               </li>
               <li class="nav-item my-auto ms-3 ms-lg-0">
-                <a href="{% url 'task_manager:task_create' %}"
+                <a href="{% url 'task:task_create' %}"
                    class="btn btn-sm bg-gradient-success  mb-0 me-1 mt-2 mt-md-0">Create task</a>
               </li>
               <li class="nav-item my-auto ms-3 ms-lg-0">
-                <a href="{% url 'task_manager:tag_create' %}"
+                <a href="{% url 'task:tag_create' %}"
                    class="btn btn-sm bg-gradient-success  mb-0 me-1 mt-2 mt-md-0">Create tag</a>
               </li>
               <li class="nav-item dropdown dropdown-hover mx-2">
@@ -37,7 +37,7 @@
                     aria-labelledby="dropdownMenuDocs">
                   <li class="nav-item list-group-item border-0 p-0">
                     <a class="dropdown-item py-2 ps-3 border-radius-md"
-                       href="{% url 'task_manager:project_list' %}">
+                       href="{% url 'executor:project_list' %}">
                       <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
                         Projects</h6>
                       <span class="text-sm"> </span>
@@ -45,7 +45,7 @@
                   </li>
                   <li class="nav-item list-group-item border-0 p-0">
                     <a class="dropdown-item py-2 ps-3 border-radius-md"
-                       href="{% url 'task_manager:task_list' %}">
+                       href="{% url 'task:task_list' %}">
                       <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
                         Tasks</h6>
                       <span class="text-sm"> </span>
@@ -54,7 +54,7 @@
 
                   <li class="nav-item list-group-item border-0 p-0">
                     <a class="dropdown-item py-2 ps-3 border-radius-md"
-                       href="{% url 'task_manager:tag_list' %}">
+                       href="{% url 'task:tag_list' %}">
                       <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
                         Tags</h6>
                       <span class="text-sm"> </span>
@@ -63,7 +63,7 @@
 
                   <li class="nav-item list-group-item border-0 p-0">
                     <a class="dropdown-item py-2 ps-3 border-radius-md"
-                       href="{% url 'task_manager:team_list' %}">
+                       href="{% url 'executor:team_list' %}">
                       <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
                         Teams</h6>
                       <span class="text-sm"> </span>
@@ -72,7 +72,7 @@
 
                   <li class="nav-item list-group-item border-0 p-0">
                     <a class="dropdown-item py-2 ps-3 border-radius-md"
-                       href="{% url 'task_manager:worker_list' %}">
+                       href="{% url 'executor:worker_list' %}">
                       <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
                         Workers</h6>
                       <span class="text-sm"> </span>
@@ -81,7 +81,7 @@
                 </ul>
                 {% if user.is_authenticated %}
                   <li class="nav-item my-auto ms-3 ms-lg-0">
-                    <a href="{% url 'task_manager:worker_detail' user.id %}"
+                    <a href="{% url 'executor:worker_detail' user.id %}"
                        class="btn btn-sm  bg-gradient-primary  mb-0 me-1 mt-2 mt-md-0"
                        title="Edit profile"
                        data-bs-toggle="tooltip">{{ user.username }}</a>

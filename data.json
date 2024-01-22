@@ -1,83 +1,83 @@
 [
   {
-    "model": "task_manager.tasktype",
+    "model": "task.tasktype",
     "pk": 1,
     "fields": {
       "name": "Development"
     }
   },
   {
-    "model": "task_manager.tasktype",
+    "model": "task.tasktype",
     "pk": 2,
     "fields": {
       "name": "Design"
     }
   },
   {
-    "model": "task_manager.tasktype",
+    "model": "task.tasktype",
     "pk": 3,
     "fields": {
       "name": "Testing"
     }
   },
     {
-    "model": "task_manager.tasktype",
+    "model": "task.tasktype",
     "pk": 4,
     "fields": {
       "name": "Documentation"
     }
   },
   {
-    "model": "task_manager.tasktype",
+    "model": "task.tasktype",
     "pk": 5,
     "fields": {
       "name": "Meetings"
     }
   },
   {
-    "model": "task_manager.position",
+    "model": "executor.position",
     "pk": 1,
     "fields": {
       "name": "Developer"
     }
   },
   {
-    "model": "task_manager.position",
+    "model": "executor.position",
     "pk": 2,
     "fields": {
       "name": "Designer"
     }
   },
   {
-    "model": "task_manager.position",
+    "model": "executor.position",
     "pk": 3,
     "fields": {
       "name": "Tester"
     }
   },
   {
-    "model": "task_manager.position",
+    "model": "executor.position",
     "pk": 4,
     "fields": {
       "name": "Project Manager"
     }
   },
   {
-    "model": "task_manager.position",
+    "model": "executor.position",
     "pk": 5,
     "fields": {
       "name": "QA Engineer"
     }
   },
   {
-    "model": "task_manager.position",
+    "model": "executor.position",
     "pk": 6,
     "fields": {
       "name": "Scrum Master"
     }
   },
   {
-    "model": "task_manager.worker",
+    "model": "executor.worker",
     "pk": 1,
     "fields": {
       "password": "hashed_password123",
@@ -94,7 +94,7 @@
     }
   },
   {
-    "model": "task_manager.worker",
+    "model": "executor.worker",
     "pk": 2,
     "fields": {
       "password": "hashed_password321",
@@ -111,7 +111,7 @@
     }
   },
   {
-    "model": "task_manager.worker",
+    "model": "executor.worker",
     "pk": 3,
     "fields": {
       "password": "hashed_password124",
@@ -128,7 +128,7 @@
     }
   },
   {
-    "model": "task_manager.worker",
+    "model": "executor.worker",
     "pk": 4,
     "fields": {
       "password": "hashed_password7427",
@@ -145,7 +145,7 @@
     }
   },
   {
-    "model": "task_manager.worker",
+    "model": "executor.worker",
     "pk": 5,
     "fields": {
       "password": "hashed_password",
@@ -162,7 +162,7 @@
     }
   },
   {
-    "model": "task_manager.worker",
+    "model": "executor.worker",
     "pk": 6,
     "fields": {
       "password": "hashed_password111",
@@ -179,7 +179,7 @@
     }
   },
   {
-    "model": "task_manager.task",
+    "model": "task.task",
     "pk": 4,
     "fields": {
       "name": "Write User Manual",
@@ -192,7 +192,7 @@
     }
   },
   {
-    "model": "task_manager.task",
+    "model": "task.task",
     "pk": 5,
     "fields": {
       "name": "Project Kickoff Meeting",
@@ -205,7 +205,7 @@
     }
   },
     {
-    "model": "task_manager.task",
+    "model": "task.task",
     "pk": 1,
     "fields": {
       "name": "Develop Feature X",
@@ -218,7 +218,7 @@
     }
   },
   {
-    "model": "task_manager.task",
+    "model": "task.task",
     "pk": 2,
     "fields": {
       "name": "Design UI",
@@ -231,7 +231,7 @@
     }
   },
   {
-    "model": "task_manager.task",
+    "model": "task.task",
     "pk": 3,
     "fields": {
       "name": "Write Test Cases",
@@ -244,7 +244,7 @@
     }
   },
   {
-    "model": "task_manager.task",
+    "model": "task.task",
     "pk": 6,
     "fields": {
       "name": "QA Testing",

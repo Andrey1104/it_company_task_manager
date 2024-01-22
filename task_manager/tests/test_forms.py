@@ -1,23 +1,18 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from task_manager.models import (
+
+from chat.forms import MessageForm, ChatCreateForm
+from chat.models import Message
+from executor.models import (
     Task,
-    Tag,
-    TaskType,
     Position,
     Worker,
-    Message,
     Team,
     Project,
 )
-from task_manager.forms import (
-    MessageForm,
-    WorkerCreateForm,
-    TaskCreateForm,
-    TeamCreateForm,
-    TaskSearchForm,
-    ChatCreateForm,
-)
+from executor.forms import WorkerCreateForm, TeamCreateForm
+from task.forms import TaskCreateForm, TaskSearchForm
+from task.models import TaskType, Tag
 
 
 class TaskManagerFormTests(TestCase):

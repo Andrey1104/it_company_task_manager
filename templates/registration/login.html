@@ -19,7 +19,7 @@
     <input type="submit" value="Login" class="btn btn-primary m-2"/>
     <input type="hidden" name="next" value="{{ next }}"/>
   </form>
-  <form action="{% url 'task_manager:worker_create' %}" method="post">
+  <form action="{% url 'executor:worker_create' %}" method="post">
     {% csrf_token %}
     <button class="btn btn-info m-2" type="submit">Registration</button>
   </form>

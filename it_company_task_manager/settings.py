@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "debug_toolbar",
-    "task_manager",
+    "task",
+    "executor",
+    "chat",
     "bootstrap4",
     "crispy_forms",
     "crispy_bootstrap4",
@@ -72,7 +74,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "task_manager.context_processors.cfg_assets_root",
+                "utils.context_processors.cfg_assets_root",
             ],
         },
     },
@@ -145,7 +147,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "task_manager.Worker"
+AUTH_USER_MODEL = "executor.Worker"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 

@@ -17,7 +17,7 @@
       {% for task in task_list %}
         <tr class="text-white">
           <td>{{ task.name }} <br>({{ task.task_type }})</td>
-          <td><a href="{% url 'task_manager:task_detail' task.id %}"
+          <td><a href="{% url 'task:task_detail' task.id %}"
                  class="btn btn-secondary btn-sm">Detail</a></td>
           <td>{{ task.description }}</td>
           <td>
