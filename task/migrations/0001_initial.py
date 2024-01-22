@@ -82,7 +82,8 @@ class Migration(migrations.Migration):
                 (
                     "assignees",
                     models.ManyToManyField(
-                        related_name="assigned_tasks", to=settings.AUTH_USER_MODEL
+                        related_name="assigned_tasks",
+                        to=settings.AUTH_USER_MODEL
                     ),
                 ),
                 (

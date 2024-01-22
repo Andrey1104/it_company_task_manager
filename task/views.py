@@ -7,7 +7,13 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from chat.forms import MessageForm
-from task.forms import TagSearchForm, TagCreateForm, TaskSearchForm, TaskCreateForm, TaskUpdateForm
+from task.forms import (
+    TagSearchForm,
+    TagCreateForm,
+    TaskSearchForm,
+    TaskCreateForm,
+    TaskUpdateForm
+)
 from task.models import Tag, Task
 from utils.mixins import SearchMixin
 
