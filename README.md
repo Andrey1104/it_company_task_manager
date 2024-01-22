@@ -1,4 +1,4 @@
-it_company_task_manager.
+it_company_task_manager
      This project helps organize and track tasks for individuals or teams,
 ensuring efficient project management and timely completion.
      The project organizes a model of interaction between an employee or 
