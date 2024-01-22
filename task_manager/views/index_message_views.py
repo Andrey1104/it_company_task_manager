@@ -5,22 +5,20 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from task_manager.forms import ChatCreateForm, MessageForm
-from task_manager.models import Task, Worker, Position, TaskType, Message
+from task_manager.models import Task, Worker, Position, TaskType, Message, Project, Team
 
 
 def index(request: HttpRequest) -> HttpResponse:
-    completed_tasks = Task.objects.filter(is_completed=True).count()
-    uncompleted_tasks = Task.objects.filter(is_completed=False).count()
+    projects = Project.objects.count()
+    tasks = Task.objects.count()
+    teams = Team.objects.count()
     workers = Worker.objects.count()
-    positions = Position.objects.count()
-    task_types = TaskType.objects.count()
     form = ChatCreateForm()
     context = {
-        "completed_tasks": completed_tasks,
-        "uncompleted_tasks": uncompleted_tasks,
+        "tasks": tasks,
         "workers": workers,
-        "positions": positions,
-        "task_types": task_types,
+        "projects": projects,
+        "teams": teams,
         "form": form,
     }
     return render(request, "layouts/index.html", context)

@@ -6,10 +6,12 @@
       <span class="mask bg-gradient-primary opacity-4"></span>
       <div class="container" style="margin-left: 10px">
         <div class="row align-center">
-          <form action="{% url 'task_manager:chat_create' %}" method="post" class="w-15 bg-gradient-faded-light border-radius-xl">
+          <form action="{% url 'task_manager:chat_create' %}"
+                method="post"
+                class="w-15 bg-gradient-faded-light border-radius-xl">
             {% csrf_token %}
             {{ form|crispy }}
-            <input  type="submit" class="btn btn-warning btn-lg" value="Chat">
+            <input type="submit" class="btn btn-warning btn-lg" value="Chat">
           </form>
         </div>
         <div class="row">
@@ -29,27 +31,34 @@
         <div class="row">
           <div class="col-lg-9 mx-auto py-3">
             <div class="row">
-              <div class="col-md-4 position-relative">
+              <div class="col-md-3 position-relative">
                 <div class="p-3 text-center">
-                  <h1 class="text-gradient text-primary"><span id="state1" countTo="{{ workers }}">0</span></h1>
-                  <a href="{% url "task_manager:worker_list" %}" class="mt-3 btn btn-primary">Workers</a>
+                  <h1 class="text-gradient text-primary"><span id="state1" countTo="{{ projects }}">0</span></h1>
+                  <a href="{% url "task_manager:project_list" %}" class="mt-3 btn btn-primary">Projects</a>
                   <p class="text-sm font-weight-normal">click to more detail...</p>
                 </div>
                 <hr class="vertical dark">
               </div>
-              <div class="col-md-4 position-relative">
+              <div class="col-md-3 position-relative">
                 <div class="p-3 text-center">
-                  <h1 class="text-gradient text-primary"><span id="state2" countTo="{{ uncompleted_tasks }}">0</span>
+                  <h1 class="text-gradient text-primary"><span id="state2" countTo="{{ tasks }}">0</span>
                   </h1>
-                  <a href="{% url "task_manager:task_list" %}" class="mt-3 btn btn-danger">Uncompleted Tasks</a>
+                  <a href="{% url "task_manager:task_list" %}" class="mt-3 btn btn-danger">Tasks</a>
                   <p class="text-sm font-weight-normal">click to more detail...</p>
                 </div>
                 <hr class="vertical dark">
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="p-3 text-center">
-                  <h1 class="text-gradient text-primary" id="state3" countTo="{{ completed_tasks }}">0</h1>
-                  <button class="mt-3 btn btn-success">Completed Tasks</button>
+                  <h1 class="text-gradient text-primary" id="state3" countTo="{{ teams }}">0</h1>
+                  <a href="{% url 'task_manager:team_list' %}" class="mt-3 btn btn-warning">Teams</a>
+                  <p class="text-sm font-weight-normal">click to more detail...</p>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="p-3 text-center">
+                  <h1 class="text-gradient text-primary" id="state4" countTo="{{ workers }}">0</h1>
+                  <a href="{% url 'task_manager:worker_list' %}" class="mt-3 btn btn-success">Workers</a>
                   <p class="text-sm font-weight-normal">click to more detail...</p>
                 </div>
               </div>
