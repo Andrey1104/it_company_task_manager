@@ -4,8 +4,10 @@
     <h1>
       Teams:
     </h1>
-    {% include "includes/search_form.html" %}
-
+    <div class="">
+      {% include "includes/search_form.html" %}
+      <a href="{% url 'executor:team_create' %}" class="btn btn-success btn-sm">+ Add team</a>
+    </div>
     <table class="table">
       <tr>
         <td>ID</td>
@@ -34,19 +36,27 @@
           </td>
           <td>
             {% for task in team.task.all %}
-              {% if task.is_completed == True %}
-                <a href="{% url 'task:task_status_update' task.id %}?next=/executor/teams/"
-                   title="Tap to restore task"
-                   data-bs-toggle="tooltip">✅</a>
-              {% else %}
-                <a href="{% url 'task:task_status_update' task.id %}?next=/executor/teams/"
-                   title="Tap to complete task"
-                   data-bs-toggle="tooltip">🔄</a>
-              {% endif %}
-              <a href="{% url 'task:task_detail' task.pk %}">{{ task }}</a>
-              <a href="{% url 'executor:team_task_delete' team.pk task.id %}" class="m-2"
-                 title="remove a task"
-                 data-bs-toggle="tooltip">❌</a><br>
+              <div class="d-flex mr-lg-1">
+                {% if task.is_completed == True %}
+                  <form
+                      action="{% url 'task:task_status_update' task.id %}?next=/executor/teams/"
+                      method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="✅" class="btn p-0" name="status">
+                  </form>
+                {% else %}
+                  <form
+                      action="{% url 'task:task_status_update' task.id %}?next=/executor/teams"
+                      method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="🔄" class="btn p-0" name="status">
+                  </form>
+                {% endif %}
+                <a href="{% url 'task:task_detail' task.pk %}">{{ task }}</a>
+                <a href="{% url 'executor:team_task_delete' team.pk task.id %}"
+                   title="remove a task"
+                   data-bs-toggle="tooltip">❌</a><br>
+              </div>
             {% endfor %}
           </td>
           <td><a href="{% url 'executor:team_task_add' team.id %}" class="btn btn-sm btn-success">Add task</a></td>

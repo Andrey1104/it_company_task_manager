@@ -4,7 +4,8 @@ from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
-from django.views import generic
+from django.views import generic, View
+from django.views.generic.detail import SingleObjectMixin
 
 from chat.forms import MessageForm
 from task.forms import (
@@ -111,10 +112,12 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("task:task_list")
 
 
-class TaskStatusUpdateView(LoginRequiredMixin, generic.UpdateView):
+class TaskStatusUpdateView(LoginRequiredMixin, SingleObjectMixin, View):
+    model = Task
     template_name = "task_manager/task/task_form.html"
 
-    def get(self, request, *args, **kwargs):
+    @staticmethod
+    def post(request, *args, **kwargs):
         task_id = kwargs.get("pk")
         task = Task.objects.get(pk=task_id)
         if not task.is_completed:
