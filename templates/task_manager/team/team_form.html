@@ -1,0 +1,5 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+  <h2 class="text-center">{{ object|yesno:"Update,Create" }} team:</h2>
+  {% include "includes/form.html" %}
+{% endblock %}

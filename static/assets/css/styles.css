@@ -1,0 +1,16 @@
+.footer {
+    color: #ccc;
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+}
+
+#scrollToTopBtn {
+    position: fixed;!important;
+    bottom: 70px;!important;
+    right: 120px;!important;
+    display: none;!important;
+    padding: 15px;!important;
+
+}
+

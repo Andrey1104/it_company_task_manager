@@ -1,0 +1,46 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+  <div class="container d-flex">
+    <div>
+      <h2>{{ worker.first_name }} {{ worker.last_name }}</h2>
+      <hr>
+      <a
+          href="{% url 'executor:worker_update' worker.id %}"
+          class="btn btn-sm btn-info mt-3"
+      >Update</a>
+      <a href="{% url 'executor:worker_delete' worker.id %}" class="btn btn-sm btn-danger mt-3">Delete</a>
+      <hr>
+      <h4>position: {{ worker.position }}</h4>
+      <hr>
+      <h4>{{ worker.email }}</h4>
+    </div>
+    <div class="container w-50">
+      <h3>Tasks:<a href="{% url 'executor:worker_task_add' worker.id %}" class="btn btn-sm btn-success"
+                   style="margin-left: 20px">Add task</a></h3>
+      {% for task in tasks %}
+        <div class="d-flex mr-lg-1">
+          {% if task.is_completed == True %}
+            <form
+                action="{% url 'task:task_status_update' task.id %}?next=/executor/workers/{{ worker.id }}/"
+                method="post">
+              {% csrf_token %}
+              <input type="submit" value="✅" class="btn p-0" name="status">
+            </form>
+          {% else %}
+            <form
+                action="{% url 'task:task_status_update' task.id %}?next=/executor/workers/{{ worker.id }}/"
+                method="post">
+              {% csrf_token %}
+              <input type="submit" value="🔄" class="btn p-0" name="status">
+            </form>
+          {% endif %}
+          <a href="{% url 'task:task_detail' task.pk %}" title="Task detail"
+             data-bs-toggle="tooltip">{{ task }}</a>
+          <a href="{% url 'executor:worker_task_delete' worker.pk task.pk %}" class=""
+             title="Remove task from this user"
+             data-bs-toggle="tooltip">❌</a><br>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

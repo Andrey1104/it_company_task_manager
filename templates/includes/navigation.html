@@ -1,0 +1,121 @@
+<div class="container position-sticky z-index-sticky top-0 opacity-7">
+  <div class="row">
+    <div class="col-12">
+      <nav
+          class="navbar navbar-expand-lg  blur border-radius-xl mt-4 top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+        <div class="container-fluid px-0">
+          <a class="btn btn-sm bg-gradient-info  mb-0 me-1 mt-2 mt-md-0" href="/" rel="tooltip"
+             title="Designed and Coded by Creative Tim" data-placement="bottom">
+            Home
+          </a>
+          <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
+            <ul class="navbar-nav navbar-nav-hover ms-auto">
+              <li class="nav-item my-auto ms-3 ms-lg-0">
+                <a href="{% url 'executor:project_create' %}"
+                   class="btn btn-sm bg-gradient-success  mb-0 me-1 mt-2 mt-md-0">Create Project</a>
+              </li>
+              <li class="nav-item my-auto ms-3 ms-lg-0">
+                <a href="{% url 'executor:team_create' %}"
+                   class="btn btn-sm bg-gradient-success  mb-0 me-1 mt-2 mt-md-0">Create Team</a>
+              </li>
+              <li class="nav-item my-auto ms-3 ms-lg-0">
+                <a href="{% url 'task:task_create' %}"
+                   class="btn btn-sm bg-gradient-success  mb-0 me-1 mt-2 mt-md-0">Create task</a>
+              </li>
+              <li class="nav-item my-auto ms-3 ms-lg-0">
+                <a href="{% url 'task:tag_create' %}"
+                   class="btn btn-sm bg-gradient-success  mb-0 me-1 mt-2 mt-md-0">Create tag</a>
+              </li>
+              <li class="nav-item dropdown dropdown-hover mx-2">
+                <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuDocs"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="material-icons opacity-6 me-2 text-md">article</i>
+                  Menu
+                  <img src="{{ ASSETS_ROOT }}/img/down-arrow-dark.svg" alt="down-arrow" class="arrow ms-auto ms-md-2">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-animation dropdown-md dropdown-md-responsive mt-0 mt-lg-3 p-3 border-radius-lg list-group d-none d-lg-block"
+                    aria-labelledby="dropdownMenuDocs">
+                  <li class="nav-item list-group-item border-0 p-0">
+                    <a class="dropdown-item py-2 ps-3 border-radius-md"
+                       href="{% url 'executor:project_list' %}">
+                      <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
+                        Projects</h6>
+                      <span class="text-sm"> </span>
+                    </a>
+                  </li>
+                  <li class="nav-item list-group-item border-0 p-0">
+                    <a class="dropdown-item py-2 ps-3 border-radius-md"
+                       href="{% url 'task:task_list' %}">
+                      <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
+                        Tasks</h6>
+                      <span class="text-sm"> </span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item list-group-item border-0 p-0">
+                    <a class="dropdown-item py-2 ps-3 border-radius-md"
+                       href="{% url 'task:tag_list' %}">
+                      <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
+                        Tags</h6>
+                      <span class="text-sm"> </span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item list-group-item border-0 p-0">
+                    <a class="dropdown-item py-2 ps-3 border-radius-md"
+                       href="{% url 'executor:team_list' %}">
+                      <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
+                        Teams</h6>
+                      <span class="text-sm"> </span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item list-group-item border-0 p-0">
+                    <a class="dropdown-item py-2 ps-3 border-radius-md"
+                       href="{% url 'executor:worker_list' %}">
+                      <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
+                        Workers</h6>
+                      <span class="text-sm"> </span>
+                    </a>
+                  </li>
+                </ul>
+                {% if user.is_authenticated %}
+                  <li class="nav-item my-auto ms-3 ms-lg-0">
+                    <a href="{% url 'executor:worker_detail' user.id %}"
+                       class="btn btn-sm  bg-gradient-primary  mb-0 me-1 mt-2 mt-md-0"
+                       title="Edit profile"
+                       data-bs-toggle="tooltip">{{ user.username }}</a>
+                  </li>
+                  <li class="nav-item ms-lg-auto">
+                    <form action="{% url 'logout' %}?next={{ request.path }}" method="post" style="display: none;"
+                          id="logout-form">
+                      {% csrf_token %}
+                    </form>
+                    <a class="nav-link nav-link-icon me-2" href="#"
+                       onclick="document.getElementById('logout-form').submit();">
+                      <i class="fa fa-sign-out me-1"></i>
+                      <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
+                         data-bs-placement="bottom" title="Sign OUT">Logout</p>
+                    </a>
+                  </li>
+                {% else %}
+                  <li class="nav-item ms-lg-auto">
+                    <form action="{% url 'login' %}?next={{ request.path }}" method="post" style="display: none;"
+                          id="login-form">
+                      {% csrf_token %}
+                    </form>
+                    <a class="nav-link nav-link-icon me-2" href="#"
+                       onclick="document.getElementById('login-form').submit();">
+                      <i class="fa fa-sign-in me-1"></i>
+                      <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
+                         data-bs-placement="bottom" title="Sign IN">Login</p>
+                    </a>
+                  </li>
+                {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>

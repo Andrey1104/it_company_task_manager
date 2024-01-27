@@ -1,0 +1,10 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
+  <h2 class="text-center">Tag menu:</h2>
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Submit" class="btn btn-success">
+  </form>
+{% endblock %}

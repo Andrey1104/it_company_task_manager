@@ -1,0 +1,259 @@
+[
+  {
+    "model": "task.tasktype",
+    "pk": 1,
+    "fields": {
+      "name": "Development"
+    }
+  },
+  {
+    "model": "task.tasktype",
+    "pk": 2,
+    "fields": {
+      "name": "Design"
+    }
+  },
+  {
+    "model": "task.tasktype",
+    "pk": 3,
+    "fields": {
+      "name": "Testing"
+    }
+  },
+    {
+    "model": "task.tasktype",
+    "pk": 4,
+    "fields": {
+      "name": "Documentation"
+    }
+  },
+  {
+    "model": "task.tasktype",
+    "pk": 5,
+    "fields": {
+      "name": "Meetings"
+    }
+  },
+  {
+    "model": "executor.position",
+    "pk": 1,
+    "fields": {
+      "name": "Developer"
+    }
+  },
+  {
+    "model": "executor.position",
+    "pk": 2,
+    "fields": {
+      "name": "Designer"
+    }
+  },
+  {
+    "model": "executor.position",
+    "pk": 3,
+    "fields": {
+      "name": "Tester"
+    }
+  },
+  {
+    "model": "executor.position",
+    "pk": 4,
+    "fields": {
+      "name": "Project Manager"
+    }
+  },
+  {
+    "model": "executor.position",
+    "pk": 5,
+    "fields": {
+      "name": "QA Engineer"
+    }
+  },
+  {
+    "model": "executor.position",
+    "pk": 6,
+    "fields": {
+      "name": "Scrum Master"
+    }
+  },
+  {
+    "model": "executor.worker",
+    "pk": 1,
+    "fields": {
+      "password": "hashed_password123",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "john.doe",
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "john.doe@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-08-09T14:19:09Z",
+      "position": 1
+    }
+  },
+  {
+    "model": "executor.worker",
+    "pk": 2,
+    "fields": {
+      "password": "hashed_password321",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "jane.smith",
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "email": "jane.smith@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-08-09T14:19:09Z",
+      "position": 2
+    }
+  },
+  {
+    "model": "executor.worker",
+    "pk": 3,
+    "fields": {
+      "password": "hashed_password124",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "susan.jones",
+      "first_name": "Susan",
+      "last_name": "Jones",
+      "email": "susan.jones@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-08-10T14:19:09Z",
+      "position": 3
+    }
+  },
+  {
+    "model": "executor.worker",
+    "pk": 4,
+    "fields": {
+      "password": "hashed_password7427",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "michael.chang",
+      "first_name": "Michael",
+      "last_name": "Chang",
+      "email": "michael.chang@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-08-11T14:19:09Z",
+      "position": 4
+    }
+  },
+  {
+    "model": "executor.worker",
+    "pk": 5,
+    "fields": {
+      "password": "hashed_password",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "emily.wilson",
+      "first_name": "Emily",
+      "last_name": "Wilson",
+      "email": "emily.wilson@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-08-12T14:19:09Z",
+      "position": 5
+    }
+  },
+  {
+    "model": "executor.worker",
+    "pk": 6,
+    "fields": {
+      "password": "hashed_password111",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "alex.kim",
+      "first_name": "Alex",
+      "last_name": "Kim",
+      "email": "alex.kim@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-08-13T14:19:09Z",
+      "position": 6
+    }
+  },
+  {
+    "model": "task.task",
+    "pk": 4,
+    "fields": {
+      "name": "Write User Manual",
+      "description": "Create a comprehensive user manual",
+      "deadline": "2022-09-15",
+      "is_completed": false,
+      "priority": "MEDIUM",
+      "task_type": 4,
+      "assignees": [3, 4, 1]
+    }
+  },
+  {
+    "model": "task.task",
+    "pk": 5,
+    "fields": {
+      "name": "Project Kickoff Meeting",
+      "description": "Organize and conduct the project kickoff meeting",
+      "deadline": "2022-09-20",
+      "is_completed": false,
+      "priority": "HIGH",
+      "task_type": 5,
+      "assignees": [5, 6, 3]
+    }
+  },
+    {
+    "model": "task.task",
+    "pk": 1,
+    "fields": {
+      "name": "Develop Feature X",
+      "description": "Implement and test Feature X",
+      "deadline": "2022-09-01",
+      "is_completed": false,
+      "priority": "HIGH",
+      "task_type": 1,
+      "assignees": [1, 2, 4]
+    }
+  },
+  {
+    "model": "task.task",
+    "pk": 2,
+    "fields": {
+      "name": "Design UI",
+      "description": "Create user interface mockups",
+      "deadline": "2022-09-05",
+      "is_completed": false,
+      "priority": "MEDIUM",
+      "task_type": 2,
+      "assignees": [1, 5]
+    }
+  },
+  {
+    "model": "task.task",
+    "pk": 3,
+    "fields": {
+      "name": "Write Test Cases",
+      "description": "Create test cases for the application",
+      "deadline": "2022-09-10",
+      "is_completed": false,
+      "priority": "LOW",
+      "task_type": 3,
+      "assignees": [2, 6]
+    }
+  },
+  {
+    "model": "task.task",
+    "pk": 6,
+    "fields": {
+      "name": "QA Testing",
+      "description": "Perform quality assurance testing",
+      "deadline": "2022-09-25",
+      "is_completed": false,
+      "priority": "URGENT",
+      "task_type": 3,
+      "assignees": [3, 4, 5]
+    }
+  }
+]

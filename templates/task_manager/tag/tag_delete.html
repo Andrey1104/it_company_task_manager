@@ -1,0 +1,5 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+	<h2>Are you sure you want to delete tag "{{ tag.name }}"?</h2>
+  {% include "includes/confirm_delete_form.html"%}
+{% endblock %}

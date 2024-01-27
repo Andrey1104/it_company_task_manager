@@ -1,0 +1,65 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+  {% include "includes/search_form.html" %}
+  <table class="container table border-radius-xl" style="background-color: rgba(220, 220, 220, 0.2);">
+    <tr class="text-white">
+      <td>Name (Type)</td>
+      <td></td>
+      <td>Description</td>
+      <td>Tags</td>
+      <td>Priority</td>
+      <td>Deadline</td>
+      <td>Status</td>
+      <td>Assignees</td>
+      <td>Teams</td>
+    </tr>
+    {% if task_list %}
+      {% for task in task_list %}
+        <tr class="text-white">
+          <td>{{ task.name }} <br>({{ task.task_type }})</td>
+          <td><a href="{% url 'task:task_detail' task.id %}"
+                 class="btn btn-secondary btn-sm">Detail</a></td>
+          <td>{{ task.description }}</td>
+          <td>
+            {% for tag in task.tags.all %}
+            	{{ tag }}<br>
+            {% endfor %}
+            
+          </td>
+          <td>
+            {% if task.priority == "URGENT" %}
+              <span class="text-primary">{{ task.priority }}</span>
+            {% elif task.priority == "NON-URGENT" %}
+              <span class="text-success">{{ task.priority }}</span>
+            {% elif task.priority == "HIGH" %}
+              <span class="text-danger">{{ task.priority }}</span>
+            {% elif task.priority == "MEDIUM" %}
+              <span class="text-warning">{{ task.priority }}</span>
+            {% else %}
+              <span class="text-success">{{ task.priority }}</span>
+            {% endif %}
+          </td>
+          <td>{{ task.deadline }}</td>
+          <td>
+            {% if task.is_completed %}
+              <span>✅</span>
+            {% else %}
+              <span>❌</span>
+            {% endif %}
+          </td>
+          <td>
+            {% for assigner in task.assignees.all %}
+              <span>{{ assigner }}</span><br>
+            {% endfor %}
+          </td>
+          <td>
+            {% for team in task.teams.all %}
+            	{{ team }}<br>
+            {% endfor %}
+            
+          </td>
+        </tr>
+      {% endfor %}
+    {% endif %}
+  </table>
+{% endblock %}

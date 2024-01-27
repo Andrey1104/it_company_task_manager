@@ -1,0 +1,93 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
+  <div class="container-fluid">
+    <div class="row min-vh-100">
+      <div class="col-sm-6 text-white ">
+        <div>
+          <h3 class="text-white">
+            {{ task.name }}
+            <br>
+            <div class="d-flex mr-lg-1">
+              {% if task.is_completed %}
+                <form
+                    action="{% url 'task:task_status_update' task.id %}"
+                    method="post">
+                  {% csrf_token %}
+                  <input type="submit" value="Restore" class="btn btn-warning btn-sm mt-3" name="status">
+                </form>
+              {% else %}
+                <form
+                    action="{% url 'task:task_status_update' task.id %}"
+                    method="post">
+                  {% csrf_token %}
+                  <input type="submit" value="Complete" class="btn btn-success btn-sm mt-3" name="status">
+                </form>
+              {% endif %}
+              <a href="{% url 'task:task_update' task.id %}" class="btn btn-sm btn-info mt-3">Update</a>
+              <a href="{% url 'task:task_delete' task.id %}" class="btn btn-sm btn-danger mt-3">Delete</a>
+            </div>
+          </h3>
+        </div>
+        <div style="margin-left: 50px" class="text-dark">
+          <p>Description: {{ task.description }}</p>
+          <p>Priority: {{ task.priority }}</p>
+          <p>Deadline: {{ task.deadline }}</p>
+        </div>
+        <hr>
+        <div class="container">
+          <form
+              action="{% url 'chat:message_create' pk_author=user.id pk_task=task.pk %}"
+              method="post" class="opacity-7 row">
+            {% csrf_token %}
+            <div class="">
+              <h2 class="opacity-10">Chat</h2>
+              {{ message_form|crispy }}
+            </div>
+            <input type="submit" value="Send" class="btn btn-success btn-lg mt-3">
+          </form>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="container bg-gradient border-radius-xl border h-100">
+          {% for message in messages %}
+            {% if message.author.id == user.id %}
+              <div class="col-md-6 offset-md-6">
+                <div class="text-white text-right bg-gradient border-radius-xl">
+                  <span class="opacity-5">You:</span><br>
+                  <span class="text-dark right">{{ message.text }}<a
+                      href="{% url 'chat:message_delete' message.id task.id %}"
+                      style="margin-left: 10px">❌</a></span><br>
+                  <span class="opacity-5">{{ message.created_at }}</span>
+                </div>
+                <hr>
+              </div>
+            {% else %}
+              <div class="col-md-6">
+                <div class="text-white message sent">
+                  <span class="opacity-5">{{ message.author }}</span><br>
+                  <span class="text-dark">{{ message.text }}</span><br>
+                  <span class="opacity-5">{{ message.created_at }}</span>
+                </div>
+                <hr>
+                <br>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          var scrollPosition = sessionStorage.getItem("scrollPosition");
+          if (scrollPosition !== null) {
+              window.scrollTo(0, scrollPosition);
+              sessionStorage.removeItem("scrollPosition");
+          }
+      });
+      window.addEventListener("beforeunload", function () {
+          sessionStorage.setItem("scrollPosition", window.scrollY);
+      });
+  </script>
+{% endblock %}
