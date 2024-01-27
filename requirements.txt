@@ -7,6 +7,7 @@ contourpy==1.2.0
 crispy==0.7.4
 crispy-bootstrap4==2023.1
 cycler==0.12.1
+dj-database-url==2.1.0
 Django==5.0.1
 django-crispy-forms==2.1
 django-debug-toolbar==4.2.0
@@ -25,6 +26,7 @@ packaging==23.2
 pathspec==0.12.1
 pillow==10.2.0
 platformdirs==4.1.0
+psycopg2==2.9.9
 pycodestyle==2.11.1
 pyflakes==3.2.0
 pyparsing==3.1.1
@@ -36,4 +38,6 @@ python-dotenv==1.0.0
 silx==1.1.2
 six==1.16.0
 sqlparse==0.4.4
+typing_extensions==4.9.0
 tzdata==2023.4
+whitenoise==6.6.0
