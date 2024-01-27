@@ -4,7 +4,7 @@ ensuring efficient project management and timely completion.
 
 ## Check it out!
 
-[Task manager project deployed to Render] (https://task_manager.render.com/)
+[Task manager project deployed to Render](https://task_manager.render.com/)
 
 ## Installing / Getting started
 
@@ -31,3 +31,7 @@ project and deadlines can be set.
 communicate on a specific task in the form of a chat. 
 * Tasks can be combined into a tag.
 * You can also see detailed information about an employee, project, team or task. 
+
+## Demo
+
+![website interface](demo.png)
