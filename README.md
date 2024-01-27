@@ -1,5 +1,3 @@
-![Logo of the project](https://raw.githubusercontent.com/jehna/readme-best-practices/master/sample-logo.png)
-
 # Task Manager
   This project helps organize and track tasks for individuals or teams, 
 ensuring efficient project management and timely completion.
